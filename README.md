@@ -4,7 +4,11 @@
 
 ## Direction and Normal
 
-# Root Types and Parameters
+# Context Types and Parameters
+
+<details>
+<summary>All context types and parameters</summary>
+
 
 ## Default Parameters
 For all cases:
@@ -26,7 +30,7 @@ Parameters:
 - CastY: Position where this spell is casted
 - CastZ: Position where this spell is casted
 
-## Projectile 
+## Projectile
 Parameters:
 - TickCount: Ticks this projectile has existed
 - ProjectileX: Position of this projectile (when root block is initiated)
@@ -36,6 +40,9 @@ Parameters:
 ## Custom Particle
 Parameters:
 - TickCount: Ticks this particle has existed
+
+
+</details>
 
 # Block Types
 
@@ -342,5 +349,31 @@ Push target, facing depending on parameter. Unaffected by knockback resistance.
   - `FREEZE` set entity to be frozen for x ticks already 
 (note that entity unfroze at double rate, so it's x/2 ticks to continue freezing)
 
+</details>
+
+<hr>
+
+## Motion
+
+<details>
+<summary>All motion types</summary>
+
+</details>
+
+<hr>
+
+## Particle Renderers
+
+<details>
+<summary>All particle renderer types</summary>
+
+</details>
+
+<hr>
+
+## Projectile Renderers
+
+<details>
+<summary>All projectile renderer types</summary>
 
 </details>
