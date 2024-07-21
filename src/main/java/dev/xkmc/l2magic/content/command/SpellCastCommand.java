@@ -79,7 +79,7 @@ public class SpellCastCommand extends MagicCommandEventHandlers {
 	private static int run(CommandContext<CommandSourceStack> ctx, SpellCastType type, boolean usePower) throws CommandSyntaxException {
 		var list = EntityArgument.getEntities(ctx, "user");
 		var holder = resolveKey(ctx, "spell", EngineRegistry.SPELL, ERR_INVALID_NAME);
-		var spell = holder.get();
+		var spell = holder.value();
 		var id = holder.key().location();
 		if (type != spell.castType()) {
 			ctx.getSource().sendFailure(LMLangData.CMD_WRONG_TYPE.get(id, spell.castType().name()));

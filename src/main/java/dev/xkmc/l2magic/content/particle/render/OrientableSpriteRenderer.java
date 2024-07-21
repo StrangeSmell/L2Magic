@@ -71,15 +71,14 @@ public interface OrientableSpriteRenderer extends ParticleRenderer {
 		float v1 = e.getV1();
 		int light = e.getLightColor(pTick);
 
-		vc.vertex(vertexes[0].x(), vertexes[0].y(), vertexes[0].z()).uv(u1, v1).color(e.rCol(), e.gCol(), e.bCol(), e.alpha()).uv2(light).endVertex();
-		vc.vertex(vertexes[1].x(), vertexes[1].y(), vertexes[1].z()).uv(u1, v0).color(e.rCol(), e.gCol(), e.bCol(), e.alpha()).uv2(light).endVertex();
-		vc.vertex(vertexes[2].x(), vertexes[2].y(), vertexes[2].z()).uv(u0, v0).color(e.rCol(), e.gCol(), e.bCol(), e.alpha()).uv2(light).endVertex();
-		vc.vertex(vertexes[3].x(), vertexes[3].y(), vertexes[3].z()).uv(u0, v1).color(e.rCol(), e.gCol(), e.bCol(), e.alpha()).uv2(light).endVertex();
-
-		vc.vertex(vertexes[3].x(), vertexes[3].y(), vertexes[3].z()).uv(u0, v1).color(e.rCol(), e.gCol(), e.bCol(), e.alpha()).uv2(light).endVertex();
-		vc.vertex(vertexes[2].x(), vertexes[2].y(), vertexes[2].z()).uv(u0, v0).color(e.rCol(), e.gCol(), e.bCol(), e.alpha()).uv2(light).endVertex();
-		vc.vertex(vertexes[1].x(), vertexes[1].y(), vertexes[1].z()).uv(u1, v0).color(e.rCol(), e.gCol(), e.bCol(), e.alpha()).uv2(light).endVertex();
-		vc.vertex(vertexes[0].x(), vertexes[0].y(), vertexes[0].z()).uv(u1, v1).color(e.rCol(), e.gCol(), e.bCol(), e.alpha()).uv2(light).endVertex();
+		vc.addVertex(vertexes[0].x(), vertexes[0].y(), vertexes[0].z()).setUv(u1, v1).setColor(e.rCol(), e.gCol(), e.bCol(), e.alpha()).setLight(light);
+		vc.addVertex(vertexes[1].x(), vertexes[1].y(), vertexes[1].z()).setUv(u1, v0).setColor(e.rCol(), e.gCol(), e.bCol(), e.alpha()).setLight(light);
+		vc.addVertex(vertexes[2].x(), vertexes[2].y(), vertexes[2].z()).setUv(u0, v0).setColor(e.rCol(), e.gCol(), e.bCol(), e.alpha()).setLight(light);
+		vc.addVertex(vertexes[3].x(), vertexes[3].y(), vertexes[3].z()).setUv(u0, v1).setColor(e.rCol(), e.gCol(), e.bCol(), e.alpha()).setLight(light);
+		vc.addVertex(vertexes[3].x(), vertexes[3].y(), vertexes[3].z()).setUv(u0, v1).setColor(e.rCol(), e.gCol(), e.bCol(), e.alpha()).setLight(light);
+		vc.addVertex(vertexes[2].x(), vertexes[2].y(), vertexes[2].z()).setUv(u0, v0).setColor(e.rCol(), e.gCol(), e.bCol(), e.alpha()).setLight(light);
+		vc.addVertex(vertexes[1].x(), vertexes[1].y(), vertexes[1].z()).setUv(u1, v0).setColor(e.rCol(), e.gCol(), e.bCol(), e.alpha()).setLight(light);
+		vc.addVertex(vertexes[0].x(), vertexes[0].y(), vertexes[0].z()).setUv(u1, v1).setColor(e.rCol(), e.gCol(), e.bCol(), e.alpha()).setLight(light);
 	}
 
 }

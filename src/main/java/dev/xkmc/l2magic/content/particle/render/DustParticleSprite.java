@@ -7,7 +7,7 @@ import org.joml.Vector3f;
 
 public record DustParticleSprite(RenderTypePreset renderType, Vector3f color) implements VanillaParticleSprite {
 
-	private static final ResourceLocation ID = new ResourceLocation("dust");
+	private static final ResourceLocation ID = ResourceLocation.withDefaultNamespace("dust");
 
 	@Override
 	public ResourceLocation particle() {

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -84,8 +85,8 @@ public class LMGenericParticle extends TextureSheetParticle {
 	}
 
 	@Override
-	public boolean shouldCull() {
-		return false;//TODO optimize?
+	public AABB getRenderBoundingBox(float partialTicks) {
+		return AABB.INFINITE;
 	}
 
 	@Override
@@ -157,19 +158,22 @@ public class LMGenericParticle extends TextureSheetParticle {
 	}
 
 	private static final ParticleRenderType BLOCK_LIT = new ParticleRenderType() {
-		public void begin(BufferBuilder builder, TextureManager manager) {
+
+		@Override
+		public BufferBuilder begin(Tesselator builder, TextureManager textureManager) {
 			RenderSystem.disableBlend();
 			RenderSystem.depthMask(true);
 			RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
-			builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-		}
-
-		public void end(Tesselator tesselator) {
-			tesselator.end();
+			return builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
 		}
 
 		public String toString() {
 			return "TERRAIN_SHEET_LIT";
+		}
+
+		@Override
+		public boolean isTranslucent() {
+			return false;
 		}
 	};
 

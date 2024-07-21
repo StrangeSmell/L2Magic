@@ -1,17 +1,11 @@
 package dev.xkmc.fastprojectileapi.entity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.network.NetworkHooks;
-import org.jetbrains.annotations.NotNull;
 
 public abstract class SimplifiedEntity extends Entity {
 
@@ -28,7 +22,7 @@ public abstract class SimplifiedEntity extends Entity {
 		this.walkDistO = this.walkDist;
 		this.xRotO = this.getXRot();
 		this.yRotO = this.getYRot();
-		this.handleNetherPortal();
+		handlePortal();
 		this.checkBelowWorld();
 		this.firstTick = false;
 		this.level().getProfiler().pop();
@@ -55,11 +49,6 @@ public abstract class SimplifiedEntity extends Entity {
 	}
 
 	@Override
-	public void setSecondsOnFire(int pSeconds) {
-
-	}
-
-	@Override
 	public int getRemainingFireTicks() {
 		return 0;
 	}
@@ -69,7 +58,7 @@ public abstract class SimplifiedEntity extends Entity {
 	}
 
 	@Override
-	public boolean ignoreExplosion() {
+	public boolean ignoreExplosion(Explosion explosion) {
 		return true;
 	}
 
@@ -81,17 +70,8 @@ public abstract class SimplifiedEntity extends Entity {
 		return PushReaction.IGNORE;
 	}
 
-	public final Packet<ClientGamePacketListener> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
 	public boolean mayInteract(Level pLevel, BlockPos pPos) {
 		return false;
-	}
-
-	@Override
-	public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @org.jetbrains.annotations.Nullable Direction side) {
-		return LazyOptional.empty();
 	}
 
 }

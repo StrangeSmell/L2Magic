@@ -11,7 +11,7 @@ public record TransitionParticleSprite(
 		RenderTypePreset renderType, Vector3f start, Vector3f end
 ) implements VanillaParticleSprite {
 
-	private static final ResourceLocation ID = new ResourceLocation("dust_color_transition");
+	private static final ResourceLocation ID = ResourceLocation.withDefaultNamespace("dust_color_transition");
 
 	@Override
 	public ResourceLocation particle() {

@@ -1,7 +1,6 @@
 package dev.xkmc.l2magic.init.data.spell.ice;
 
 import com.tterrag.registrate.providers.RegistrateLangProvider;
-import dev.xkmc.l2complements.init.registrate.LCEffects;
 import dev.xkmc.l2magic.content.engine.context.DataGenContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
 import dev.xkmc.l2magic.content.engine.iterator.DelayedIterator;
@@ -31,6 +30,7 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Items;
 
 import java.util.List;
@@ -84,7 +84,7 @@ public class WinterStorm extends SpellDataGenEntry {
 												PushProcessor.Type.TO_CENTER
 										),
 										new EffectProcessor(
-												LCEffects.ICE.get(),
+												MobEffects.MOVEMENT_SLOWDOWN,//TODO LCEffects.ICE.get(),
 												IntVariable.of("100"),
 												IntVariable.of("0"),
 												false, false
@@ -139,7 +139,7 @@ public class WinterStorm extends SpellDataGenEntry {
 												PushProcessor.Type.TO_CENTER
 										),
 										new EffectProcessor(
-												LCEffects.ICE.get(),
+												MobEffects.MOVEMENT_SLOWDOWN,//TODO LCEffects.ICE.get(),
 												IntVariable.of("100"),
 												IntVariable.of("0"),
 												false, false
