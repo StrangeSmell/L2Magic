@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.selector;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EntitySelector;
@@ -40,7 +41,7 @@ public record CompoundEntitySelector(
 
 	private static final Codec<Type> TYPE_CODEC = EngineHelper.enumCodec(Type.class, Type.values());
 
-	public static Codec<CompoundEntitySelector> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static MapCodec<CompoundEntitySelector> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			TYPE_CODEC.fieldOf("function").forGetter(e -> e.function),
 			Codec.list(EntitySelector.CODEC).fieldOf("selectors").forGetter(e -> e.selectors)
 	).apply(i, CompoundEntitySelector::new));

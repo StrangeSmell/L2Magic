@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.processor;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EntityProcessor;
@@ -41,7 +42,7 @@ public record PropertyProcessor(
 
 	private static final Codec<Type> TYPE_CODEC = EngineHelper.enumCodec(Type.class, Type.values());
 
-	public static final Codec<PropertyProcessor> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<PropertyProcessor> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			TYPE_CODEC.fieldOf("property").forGetter(e -> e.property),
 			IntVariable.codec("duration", e -> e.duration)
 	).apply(i, PropertyProcessor::new));

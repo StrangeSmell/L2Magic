@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.entity.motion;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.context.LocationContext;
@@ -14,7 +15,7 @@ public record MovePosMotion(
 		List<Modifier<?>> modifiers
 ) implements SetPosMotion<MovePosMotion> {
 
-	public static final Codec<MovePosMotion> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<MovePosMotion> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			Codec.list(Modifier.CODEC).fieldOf("modifiers").forGetter(e -> e.modifiers)
 	).apply(i, MovePosMotion::new));
 

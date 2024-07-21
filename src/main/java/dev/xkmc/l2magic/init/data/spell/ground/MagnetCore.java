@@ -12,7 +12,7 @@ import dev.xkmc.l2magic.content.engine.selector.*;
 import dev.xkmc.l2magic.content.engine.spell.*;
 import dev.xkmc.l2magic.content.engine.variable.*;
 import dev.xkmc.l2magic.init.data.SpellDataGenEntry;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.level.block.Blocks;
@@ -29,7 +29,7 @@ public class MagnetCore extends SpellDataGenEntry {
 	}
 
 	@Override
-	public void register(BootstapContext<SpellAction> ctx) {
+	public void register(BootstrapContext<SpellAction> ctx) {
 		new SpellAction(
 				magnetCore(new DataGenContext(ctx)),
 				Blocks.IRON_ORE.asItem(), 3000,

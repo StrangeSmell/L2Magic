@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.selector;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EntitySelector;
@@ -21,7 +22,7 @@ public record BoxSelector(
 		boolean center
 ) implements EntitySelector<BoxSelector> {
 
-	public static final Codec<BoxSelector> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<BoxSelector> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.codec("size", BoxSelector::r),
 			DoubleVariable.codec("y", BoxSelector::y),
 			Codec.BOOL.optionalFieldOf("center").forGetter(e -> Optional.of(e.center))

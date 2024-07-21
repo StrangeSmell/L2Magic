@@ -4,43 +4,28 @@ import dev.xkmc.l2magic.content.engine.helper.Orientation;
 import dev.xkmc.l2magic.content.engine.spell.SpellAction;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 import dev.xkmc.l2serial.network.SerialPacketBase;
-import dev.xkmc.l2serial.serialization.SerialClass;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkEvent;
 
-@SerialClass
-public class SpellUsePacket extends SerialPacketBase {
+public record SpellUsePacket(
+		int user, long seed, ResourceLocation spell,
+		Vec3 origin, Vec3 facing, Vec3 normal,
+		double tickUsing, double power
+) implements SerialPacketBase<SpellUsePacket> {
 
-	@SerialClass.SerialField
-	public int user;
-	@SerialClass.SerialField
-	public long seed;
-	@SerialClass.SerialField
-	public ResourceLocation spell;
-	@SerialClass.SerialField
-	public Vec3 origin, facing, normal;
-	@SerialClass.SerialField
-	public double tickUsing, power;
 
-	@Deprecated
-	public SpellUsePacket() {
+	public static SpellUsePacket of(SpellAction sp, SpellContext ctx) {//TODO use holder
+		var key = ctx.user().level().registryAccess().registryOrThrow(EngineRegistry.SPELL).getKey(sp);
+		assert key != null;
+		return new SpellUsePacket(ctx.user().getId(), ctx.seed(), key,
+				ctx.origin(), ctx.facing().forward(), ctx.facing().normal(),
+				ctx.tickUsing(), ctx.power());
 	}
-
-	public SpellUsePacket(SpellAction sp, SpellContext ctx) {
-		user = ctx.user().getId();
-		spell = ctx.user().level().registryAccess().registryOrThrow(EngineRegistry.SPELL).getKey(sp);
-		origin = ctx.origin();
-		facing = ctx.facing().forward();
-		normal = ctx.facing().normal();
-		tickUsing = ctx.tickUsing();
-		power = ctx.power();
-		seed = ctx.seed();
-	}
-
 
 	@Override
-	public void handle(NetworkEvent.Context context) {
+	public void handle(Player player) {
 		ClientSpellHandler.useSpell(user, spell, origin, Orientation.of(facing, normal), seed, tickUsing, power);
 	}
+
 }

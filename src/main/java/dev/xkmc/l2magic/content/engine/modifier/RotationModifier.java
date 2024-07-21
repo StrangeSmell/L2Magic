@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.engine.modifier;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.context.LocationContext;
@@ -14,7 +14,7 @@ public record RotationModifier(
 		DoubleVariable vertical
 ) implements Modifier<RotationModifier> {
 
-	public static Codec<RotationModifier> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static MapCodec<RotationModifier> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.codec("degree", e -> e.degree),
 			DoubleVariable.optionalCodec("vertical", e -> e.vertical)
 	).apply(i, (a, b) -> new RotationModifier(a, b.orElse(DoubleVariable.ZERO))));

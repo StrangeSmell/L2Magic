@@ -7,12 +7,12 @@ import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
 import dev.xkmc.l2magic.content.engine.helper.EngineHelper;
 import dev.xkmc.l2magic.content.engine.helper.Scheduler;
 import dev.xkmc.l2magic.init.L2Magic;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.levelgen.SingleThreadedRandomSource;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Set;
 
@@ -24,7 +24,7 @@ public record SpellAction(ConfiguredEngine<?> action, Item icon, int order,
 
 	public static final Codec<SpellAction> CODEC = RecordCodecBuilder.create(i -> i.group(
 			ConfiguredEngine.codec("action", SpellAction::action),
-			ForgeRegistries.ITEMS.getCodec().fieldOf("icon").forGetter(e -> e.icon),
+			BuiltInRegistries.ITEM.byNameCodec().fieldOf("icon").forGetter(e -> e.icon),
 			Codec.INT.fieldOf("order").forGetter(e -> e.order),
 			CAST_CODEC.fieldOf("cast_type").forGetter(e -> e.castType),
 			TRIGGER_CODEC.fieldOf("trigger_type").forGetter(e -> e.triggerType)
@@ -54,7 +54,7 @@ public record SpellAction(ConfiguredEngine<?> action, Item icon, int order,
 			return;
 		}
 		if (!ctx.user().level().isClientSide()) {
-			L2Magic.HANDLER.toTrackingPlayers(new SpellUsePacket(this, ctx), ctx.user());
+			L2Magic.HANDLER.toTrackingPlayers(SpellUsePacket.of(this, ctx), ctx.user());
 		}
 	}
 
@@ -62,7 +62,7 @@ public record SpellAction(ConfiguredEngine<?> action, Item icon, int order,
 		return action().verify(BuilderContext.withScheduler(L2Magic.LOGGER, id.toString(), params()));
 	}
 
-	public void verifyOnBuild(BootstapContext<SpellAction> ctx, ResourceKey<SpellAction> id) {
+	public void verifyOnBuild(BootstrapContext<SpellAction> ctx, ResourceKey<SpellAction> id) {
 		verify(id.location());
 		ctx.register(id, this);
 	}

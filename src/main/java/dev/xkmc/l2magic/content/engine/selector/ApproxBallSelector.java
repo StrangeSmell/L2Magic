@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.selector;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EntitySelector;
@@ -19,7 +20,7 @@ public record ApproxBallSelector(
 		DoubleVariable r
 ) implements EntitySelector<ApproxBallSelector> {
 
-	public static final Codec<ApproxBallSelector> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<ApproxBallSelector> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.codec("r", ApproxBallSelector::r)
 	).apply(i, ApproxBallSelector::new));
 

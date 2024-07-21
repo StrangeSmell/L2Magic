@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.iterator;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.context.LocationContext;
@@ -20,7 +21,7 @@ public record RingIterator(DoubleVariable radius,
 						   ConfiguredEngine<?> child, @Nullable String index)
 		implements Iterator<RingIterator> {
 
-	public static Codec<RingIterator> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static MapCodec<RingIterator> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.codec("radius", RingIterator::radius),
 			DoubleVariable.optionalCodec("minAngle", RingIterator::minAngle),
 			DoubleVariable.optionalCodec("maxAngle", RingIterator::maxAngle),

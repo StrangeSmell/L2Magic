@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.engine.modifier;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.context.LocationContext;
@@ -13,7 +13,7 @@ import net.minecraft.world.phys.Vec3;
 public record SetPosModifier(DoubleVariable x, DoubleVariable y, DoubleVariable z)
 		implements Modifier<SetPosModifier> {
 
-	public static Codec<SetPosModifier> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static MapCodec<SetPosModifier> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.optionalCodec("x", SetPosModifier::x),
 			DoubleVariable.optionalCodec("y", SetPosModifier::y),
 			DoubleVariable.optionalCodec("z", SetPosModifier::z)

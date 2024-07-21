@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.engine.selector;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EntitySelector;
 import dev.xkmc.l2magic.content.engine.core.SelectorType;
@@ -13,7 +13,7 @@ import java.util.Set;
 
 public record SelfSelector() implements EntitySelector<SelfSelector> {
 
-	public static Codec<SelfSelector> CODEC = Codec.unit(new SelfSelector());
+	public static MapCodec<SelfSelector> CODEC = MapCodec.unit(new SelfSelector());
 
 	@Override
 	public SelectorType<SelfSelector> type() {

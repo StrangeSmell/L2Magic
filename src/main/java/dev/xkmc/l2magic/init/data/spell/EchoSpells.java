@@ -20,7 +20,7 @@ import dev.xkmc.l2magic.content.entity.motion.SimpleMotion;
 import dev.xkmc.l2magic.content.particle.engine.*;
 import dev.xkmc.l2magic.init.data.SpellDataGenEntry;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Items;
 
@@ -32,7 +32,7 @@ public class EchoSpells extends SpellDataGenEntry {
 	public static final ResourceKey<SpellAction> BLADES = spell("echo_blades");
 
 	@Override
-	public void register(BootstapContext<SpellAction> ctx) {
+	public void register(BootstrapContext<SpellAction> ctx) {
 		new SpellAction(
 				verticalRings(new DataGenContext(ctx)),
 				Items.ECHO_SHARD,

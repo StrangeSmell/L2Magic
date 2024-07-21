@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.logic;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
@@ -14,7 +15,7 @@ import java.util.Set;
 public record RandomVariableLogic(String name, int count, ConfiguredEngine<?> child)
 		implements ConfiguredEngine<RandomVariableLogic> {
 
-	public static Codec<RandomVariableLogic> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static MapCodec<RandomVariableLogic> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			Codec.STRING.fieldOf("name").forGetter(e -> e.name),
 			Codec.INT.fieldOf("count").forGetter(e -> e.count),
 			ConfiguredEngine.codec("child", RandomVariableLogic::child)

@@ -14,7 +14,7 @@ import dev.xkmc.l2magic.content.engine.spell.*;
 import dev.xkmc.l2magic.content.engine.variable.*;
 import dev.xkmc.l2magic.init.data.SpellDataGenEntry;
 import dev.xkmc.l2magic.init.data.spell.UnrealHelper;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.item.Items;
@@ -31,7 +31,7 @@ public class FlameCharge extends SpellDataGenEntry {
     }
 
     @Override
-    public void register(BootstapContext<SpellAction> ctx) {
+    public void register(BootstrapContext<SpellAction> ctx) {
         new SpellAction(
                 flameCharge(new DataGenContext(ctx)),
                 Items.FIRE_CHARGE, 3300,

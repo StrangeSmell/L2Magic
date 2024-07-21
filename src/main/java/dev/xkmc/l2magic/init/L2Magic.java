@@ -1,9 +1,9 @@
 package dev.xkmc.l2magic.init;
 
 import com.tterrag.registrate.providers.ProviderType;
+import dev.xkmc.l2core.init.reg.registrate.L2Registrate;
+import dev.xkmc.l2core.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2itemselector.select.item.IItemSelector;
-import dev.xkmc.l2library.base.L2Registrate;
-import dev.xkmc.l2library.serial.config.PacketHandlerWithConfig;
 import dev.xkmc.l2magic.content.engine.context.SpellUsePacket;
 import dev.xkmc.l2magic.content.engine.spell.SpellAction;
 import dev.xkmc.l2magic.content.entity.core.ProjectileConfig;
@@ -12,27 +12,28 @@ import dev.xkmc.l2magic.init.data.LMDatapackRegistriesGen;
 import dev.xkmc.l2magic.init.data.LMLangData;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 import dev.xkmc.l2magic.init.registrate.LMItems;
+import dev.xkmc.l2serial.network.PacketHandler;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.registries.DataPackRegistryEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(L2Magic.MODID)
-@Mod.EventBusSubscriber(modid = L2Magic.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = L2Magic.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class L2Magic {
 
 	public static final String MODID = "l2magic";
 	public static final PacketHandlerWithConfig HANDLER = new PacketHandlerWithConfig(
-			new ResourceLocation(MODID, "main"), 1,
-			e -> e.create(SpellUsePacket.class, NetworkDirection.PLAY_TO_CLIENT)
+			MODID, 1,
+			e -> e.create(SpellUsePacket.class, PacketHandler.NetDir.PLAY_TO_CLIENT)
 	);
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
@@ -67,7 +68,7 @@ public class L2Magic {
 	}
 
 	public static ResourceLocation loc(String id) {
-		return new ResourceLocation(MODID, id);
+		return ResourceLocation.fromNamespaceAndPath(MODID, id);
 	}
 
 }

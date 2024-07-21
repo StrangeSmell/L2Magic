@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.iterator;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
@@ -14,7 +15,7 @@ import java.util.Optional;
 public record LoopIterator(IntVariable step, ConfiguredEngine<?> child, @Nullable String index)
 		implements Iterator<LoopIterator> {
 
-	public static Codec<LoopIterator> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static MapCodec<LoopIterator> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			IntVariable.codec("step", LoopIterator::step),
 			ConfiguredEngine.codec("child", Iterator::child),
 			Codec.STRING.optionalFieldOf("index").forGetter(e -> Optional.ofNullable(e.index))

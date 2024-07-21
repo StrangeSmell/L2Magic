@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.engine.modifier;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.context.LocationContext;
@@ -11,7 +11,7 @@ import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 
 public record NormalOffsetModifier(DoubleVariable distance) implements Modifier<NormalOffsetModifier> {
 
-	public static Codec<NormalOffsetModifier> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static MapCodec<NormalOffsetModifier> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.codec("distance", e -> e.distance)
 	).apply(i, NormalOffsetModifier::new));
 

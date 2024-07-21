@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.engine.particle;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EngineType;
@@ -23,7 +23,7 @@ public record DustParticleInstance(
 		IntVariable life
 ) implements ParticleInstance<DustParticleInstance>, RandomColorParticle {
 
-	public static final Codec<DustParticleInstance> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<DustParticleInstance> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			ColorVariable.CODEC.fieldOf("color").forGetter(e -> e.color),
 			DoubleVariable.codec("scale", DustParticleInstance::scale),
 			DoubleVariable.codec("speed", ParticleInstance::speed),

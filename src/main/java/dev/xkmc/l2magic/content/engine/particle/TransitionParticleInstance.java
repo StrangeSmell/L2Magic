@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.engine.particle;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EngineType;
@@ -22,7 +22,7 @@ public record TransitionParticleInstance(
 		IntVariable life)
 		implements ParticleInstance<TransitionParticleInstance>, RandomColorParticle {
 
-	public static final Codec<TransitionParticleInstance> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<TransitionParticleInstance> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			ColorVariable.CODEC.fieldOf("start").forGetter(e -> e.start),
 			ColorVariable.CODEC.fieldOf("end").forGetter(e -> e.end),
 			DoubleVariable.codec("scale", TransitionParticleInstance::scale),

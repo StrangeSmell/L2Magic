@@ -9,10 +9,7 @@ import dev.xkmc.l2magic.content.particle.render.ParticleRenderer;
 import dev.xkmc.l2magic.content.particle.render.SimpleParticleSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public record ClientParticleData(
 		int life, boolean doCollision, float size,
 		EngineContext ctx, Motion<?> motion, ParticleRenderer renderer
@@ -22,7 +19,7 @@ public record ClientParticleData(
 			40, false, 0.15f, null, SimpleMotion.ZERO,
 			new SimpleParticleSprite(
 					RenderTypePreset.LIT,
-					new ResourceLocation("flame")
+					ResourceLocation.withDefaultNamespace("flame")
 			));
 
 	public static float randSize(EngineContext ctx) {

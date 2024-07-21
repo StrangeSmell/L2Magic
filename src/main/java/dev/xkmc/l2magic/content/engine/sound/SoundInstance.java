@@ -1,15 +1,15 @@
 package dev.xkmc.l2magic.content.engine.sound;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
 import dev.xkmc.l2magic.content.engine.core.EngineType;
 import dev.xkmc.l2magic.content.engine.variable.DoubleVariable;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public record SoundInstance(
 		SoundEvent sound,
@@ -17,8 +17,8 @@ public record SoundInstance(
 		DoubleVariable pitch
 ) implements ConfiguredEngine<SoundInstance> {
 
-	public static final Codec<SoundInstance> CODEC = RecordCodecBuilder.create(i -> i.group(
-			ForgeRegistries.SOUND_EVENTS.getCodec().fieldOf("sound").forGetter(e -> e.sound),
+	public static final MapCodec<SoundInstance> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+			BuiltInRegistries.SOUND_EVENT.byNameCodec().fieldOf("sound").forGetter(e -> e.sound),
 			DoubleVariable.optionalCodec("volume", e -> e.volume),
 			DoubleVariable.optionalCodec("pitch", e -> e.pitch)
 	).apply(i, (a, b, c) -> new SoundInstance(a,

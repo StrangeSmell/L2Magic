@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.entity.motion;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.fastprojectileapi.entity.ProjectileMovement;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
@@ -15,7 +16,7 @@ public record SimpleMotion(
 		DoubleVariable gravity
 ) implements Motion<SimpleMotion> {
 
-	public static final Codec<SimpleMotion> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<SimpleMotion> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.optionalCodec("friction", e -> e.friction),
 			DoubleVariable.optionalCodec("gravity", e -> e.gravity)
 	).apply(i, (f, g) -> new SimpleMotion(

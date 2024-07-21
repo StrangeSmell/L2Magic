@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.iterator;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.BuilderContext;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public record DelayedIterator(IntVariable step, IntVariable delay, ConfiguredEngine<?> child, @Nullable String index)
 		implements Iterator<DelayedIterator> {
 
-	public static Codec<DelayedIterator> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static MapCodec<DelayedIterator> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			IntVariable.codec("step", DelayedIterator::step),
 			IntVariable.codec("delay", DelayedIterator::delay),
 			ConfiguredEngine.codec("child", Iterator::child),

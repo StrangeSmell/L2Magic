@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.processor;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EntityProcessor;
@@ -18,7 +19,7 @@ public record TeleportProcessor(
         DoubleVariable z
 ) implements EntityProcessor<TeleportProcessor> {
 
-    public static final Codec<TeleportProcessor> CODEC = RecordCodecBuilder.create(i -> i.group(
+    public static final MapCodec<TeleportProcessor> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
             DoubleVariable.codec("x", e -> e.x),
             DoubleVariable.codec("y", e -> e.y),
             DoubleVariable.codec("z", e -> e.z)

@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.engine.context;
 
-import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
+import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
 import dev.xkmc.l2magic.content.engine.helper.Orientation;
 import dev.xkmc.l2magic.content.engine.spell.SpellAction;
 import io.netty.util.internal.ThreadLocalRandom;

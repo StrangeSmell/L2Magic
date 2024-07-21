@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.logic;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
@@ -19,7 +20,7 @@ public record ProcessorEngine(
 		List<EntityProcessor<?>> processors
 ) implements ConfiguredEngine<ProcessorEngine> {
 
-	public static final Codec<ProcessorEngine> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<ProcessorEngine> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			SelectionType.CODEC.fieldOf("target").forGetter(e -> e.target),
 			EntitySelector.CODEC.fieldOf("selector").forGetter(e -> e.selector),
 			Codec.list(EntityProcessor.CODEC).fieldOf("processors").forGetter(e -> e.processors)

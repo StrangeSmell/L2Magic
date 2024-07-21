@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.particle.engine;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.BuilderContext;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
@@ -19,7 +20,7 @@ public record OrientedParticleData(
 		boolean fixFacing
 ) implements ParticleRenderData<OrientedParticleData> {
 
-	public static final Codec<OrientedParticleData> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<OrientedParticleData> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			ParticleRenderData.CODEC.fieldOf("inner").forGetter(e -> e.inner),
 			DoubleVariable.optionalCodec("roll", e -> e.roll),
 			Codec.BOOL.optionalFieldOf("fixFacing").forGetter(e -> Optional.of(e.fixFacing))

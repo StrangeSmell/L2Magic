@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.iterator;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.context.LocationContext;
@@ -18,7 +19,7 @@ public record SphereRandomIterator(DoubleVariable radius, IntVariable count,
 								   ConfiguredEngine<?> child, @Nullable String index)
 		implements Iterator<SphereRandomIterator> {
 
-	public static Codec<SphereRandomIterator> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static MapCodec<SphereRandomIterator> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.codec("radius", SphereRandomIterator::radius),
 			IntVariable.codec("count", SphereRandomIterator::count),
 			ConfiguredEngine.codec("child", Iterator::child),

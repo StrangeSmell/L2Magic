@@ -1,9 +1,10 @@
 package dev.xkmc.l2magic.content.entity.core;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 
 public interface MotionType<T extends Record & Motion<T>> {
 
-	Codec<T> codec();
+	MapCodec<T> codec();
 
 }

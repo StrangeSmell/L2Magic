@@ -1,44 +1,18 @@
 package dev.xkmc.l2magic.events;
 
-import dev.xkmc.l2library.init.explosion.BaseExplosion;
-import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.l2magic.init.L2Magic;
-import net.minecraft.world.level.Explosion;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.level.ExplosionEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
 
-@EventBusSubscriber(modid = L2Magic.MODID, bus = Bus.FORGE)
+@EventBusSubscriber(modid = L2Magic.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class ClientEventHandler {
+
 	private static List<BooleanSupplier> TASKS = new ArrayList<>();
 
 	public ClientEventHandler() {
-	}
-
-	@SubscribeEvent
-	public static void clientTick(TickEvent.ClientTickEvent event) {
-		if (event.phase == Phase.END) {
-			RayTraceUtil.serverTick();
-			execute();
-		}
-	}
-
-	@SubscribeEvent
-	public static void onDetonate(ExplosionEvent.Detonate event) {
-		Explosion var2 = event.getExplosion();
-		if (var2 instanceof BaseExplosion exp) {
-			event.getAffectedEntities().removeIf((e) -> {
-				return !exp.hurtEntity(e);
-			});
-		}
-
 	}
 
 	public static synchronized void schedule(Runnable runnable) {
@@ -61,4 +35,5 @@ public class ClientEventHandler {
 			TASKS = temp;
 		}
 	}
+
 }

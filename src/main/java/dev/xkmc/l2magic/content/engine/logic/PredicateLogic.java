@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.logic;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
@@ -16,7 +17,7 @@ public record PredicateLogic(
 		@Nullable ConfiguredEngine<?> fallback
 ) implements ConfiguredEngine<PredicateLogic> {
 
-	public static Codec<PredicateLogic> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static MapCodec<PredicateLogic> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			BooleanVariable.CODEC.fieldOf("predicate").forGetter(e -> e.predicate),
 			ConfiguredEngine.optionalCodec("action", PredicateLogic::action),
 			ConfiguredEngine.optionalCodec("fallback", PredicateLogic::fallback)

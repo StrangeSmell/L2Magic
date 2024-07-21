@@ -12,7 +12,7 @@ import net.minecraftforge.registries.RegistryManager;
 
 import java.util.function.Supplier;
 
-public record EngineRegistryInstance<T>(ResourceKey<Registry<T>> key, Supplier<IForgeRegistry<T>> registry) {
+public record EngineRegistryInstance<T>(ResourceKey<Registry<T>> key, Supplier<Registry<T>> registry) {
 
 	public static <T> EngineRegistryInstance<T> of(String id) {
 		ResourceKey<Registry<T>> key = L2Magic.REGISTRATE.makeRegistry(id, RegistryBuilder::new);

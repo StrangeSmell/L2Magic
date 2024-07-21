@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.engine.modifier;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.context.LocationContext;
@@ -19,7 +19,7 @@ public record RandomOffsetModifier(Type shape, DoubleVariable x, DoubleVariable 
 		RECT, SPHERE, GAUSSIAN
 	}
 
-	public static Codec<RandomOffsetModifier> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static MapCodec<RandomOffsetModifier> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			EngineHelper.enumCodec(Type.class, Type.values()).fieldOf("shape").forGetter(e -> e.shape),
 			DoubleVariable.optionalCodec("x", RandomOffsetModifier::x),
 			DoubleVariable.optionalCodec("y", RandomOffsetModifier::y),

@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.particle;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EngineType;
@@ -14,16 +15,16 @@ import dev.xkmc.l2magic.content.particle.render.ItemSprite;
 import dev.xkmc.l2magic.content.particle.render.SpriteGeom;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public record ItemParticleInstance(
 		Item item, DoubleVariable speed,
 		DoubleVariable scale, IntVariable life, boolean breaking
 ) implements ParticleInstance<ItemParticleInstance> {
 
-	public static final Codec<ItemParticleInstance> CODEC = RecordCodecBuilder.create(i -> i.group(
-			ForgeRegistries.ITEMS.getCodec().fieldOf("item").forGetter(e -> e.item),
+	public static final MapCodec<ItemParticleInstance> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+			BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(e -> e.item),
 			DoubleVariable.codec("speed", ParticleInstance::speed),
 			DoubleVariable.codec("scale", e -> e.scale),
 			IntVariable.codec("life", e -> e.life),

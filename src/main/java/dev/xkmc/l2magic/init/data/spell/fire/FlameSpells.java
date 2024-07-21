@@ -28,7 +28,7 @@ import dev.xkmc.l2magic.content.engine.variable.DoubleVariable;
 import dev.xkmc.l2magic.content.engine.variable.IntVariable;
 import dev.xkmc.l2magic.init.data.SpellDataGenEntry;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.item.Items;
@@ -49,7 +49,7 @@ public class FlameSpells extends SpellDataGenEntry {
 	}
 
 	@Override
-	public void register(BootstapContext<SpellAction> ctx) {
+	public void register(BootstrapContext<SpellAction> ctx) {
 		new SpellAction(
 				flameBurst(new DataGenContext(ctx)),
 				Items.FIRE_CHARGE, 200,

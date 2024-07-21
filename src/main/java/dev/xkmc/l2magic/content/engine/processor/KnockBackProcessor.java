@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.processor;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EntityProcessor;
@@ -18,7 +19,7 @@ public record KnockBackProcessor(
 		DoubleVariable tilt
 ) implements EntityProcessor<KnockBackProcessor> {
 
-	public static final Codec<KnockBackProcessor> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<KnockBackProcessor> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.codec("knockback", e -> e.knockback),
 			DoubleVariable.optionalCodec("angle", e -> e.angle),
 			DoubleVariable.optionalCodec("tilt", e -> e.tilt)

@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.modifier;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.context.LocationContext;
 import dev.xkmc.l2magic.content.engine.core.Modifier;
@@ -9,7 +10,7 @@ import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 
 public record Normal2DirModifier() implements Modifier<Normal2DirModifier> {
 
-	public static Codec<Normal2DirModifier> CODEC = Codec.unit(new Normal2DirModifier());
+	public static MapCodec<Normal2DirModifier> CODEC = MapCodec.unit(new Normal2DirModifier());
 
 	@Override
 	public ModifierType<Normal2DirModifier> type() {

@@ -8,7 +8,9 @@ import dev.xkmc.l2magic.content.engine.core.EntityProcessor;
 import dev.xkmc.l2magic.content.engine.helper.Scheduler;
 import dev.xkmc.l2magic.content.entity.renderer.ProjectileRenderer;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
-import dev.xkmc.l2serial.serialization.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.OnInject;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -17,8 +19,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.SingleThreadedRandomSource;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
@@ -35,10 +35,10 @@ public class ProjectileData {
 	public static final Set<String> DEFAULT_PARAMS = Set.of("TickCount",
 			"ProjectileX", "ProjectileY", "ProjectileZ");
 
-	@SerialClass.SerialField(toClient = true)
+	@SerialField(toClient = true)
 	public ProjectileParams params;
 
-	@SerialClass.SerialField(toClient = true)
+	@SerialField(toClient = true)
 	private ResourceLocation id;
 
 	private boolean init;
@@ -52,10 +52,10 @@ public class ProjectileData {
 	public ProjectileData(ProjectileParams params, Holder<ProjectileConfig> config) {
 		this.params = params;
 		this.id = config.unwrapKey().get().location();
-		this.config = config.get();
+		this.config = config.value();
 	}
 
-	@SerialClass.OnInject
+	@OnInject
 	public void onInject() {
 		init = false;
 		config = null;
@@ -126,7 +126,6 @@ public class ProjectileData {
 		return ProjectileMovement.of(vec);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	@Nullable
 	public ProjectileRenderer getRenderer(LMProjectile self) {
 		if (getConfig(self.level()) == null) return null;

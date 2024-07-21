@@ -1,5 +1,8 @@
 package dev.xkmc.l2magic.content.item;
 
+import dev.xkmc.l2library.content.raytrace.FastItem;
+import dev.xkmc.l2library.content.raytrace.IGlowingTarget;
+import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
 import dev.xkmc.l2library.util.raytrace.FastItem;
 import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
@@ -82,10 +85,10 @@ public class WandItem extends Item implements IGlowingTarget, FastItem {
 		SpellAction spell = getSpell(level, stack);
 		if (spell != null) {
 			if (spell.castType() == SpellCastType.CONTINUOUS) {
-				castSpell(stack, level, user, spell, getUseDuration(stack) - remain, false);
+				castSpell(stack, level, user, spell, getUseDuration(stack, user) - remain, false);
 			}
 			if (spell.castType() == SpellCastType.CHARGE) {
-				castSpell(stack, level, user, spell, getUseDuration(stack) - remain, true);
+				castSpell(stack, level, user, spell, getUseDuration(stack, user) - remain, true);
 			}
 		}
 	}
@@ -95,7 +98,7 @@ public class WandItem extends Item implements IGlowingTarget, FastItem {
 		SpellAction spell = getSpell(level, stack);
 		if (spell != null) {
 			if (spell.castType() == SpellCastType.CHARGE) {
-				castSpell(stack, level, user, spell, getUseDuration(stack) - remain, false);
+				castSpell(stack, level, user, spell, getUseDuration(stack, user) - remain, false);
 			}
 		}
 	}
@@ -120,7 +123,7 @@ public class WandItem extends Item implements IGlowingTarget, FastItem {
 	}
 
 	@Override
-	public int getUseDuration(ItemStack stack) {
+	public int getUseDuration(ItemStack stack, LivingEntity e) {
 		return 72000;
 	}
 

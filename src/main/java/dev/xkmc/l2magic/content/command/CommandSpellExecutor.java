@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.command;
 
-import dev.xkmc.l2library.init.events.GeneralEventHandler;
+import dev.xkmc.l2core.events.SchedulerHandler;
 import dev.xkmc.l2magic.content.engine.context.SpellContext;
 import dev.xkmc.l2magic.content.engine.spell.SpellAction;
 import dev.xkmc.l2magic.content.engine.spell.SpellCastType;
@@ -14,7 +14,7 @@ public class CommandSpellExecutor {
 			if (val == null) return false;
 			spell.execute(val);
 		} else {
-			GeneralEventHandler.schedulePersistent(new CommandSpellExecutor(le, spell, time, power, distance)::tick);
+			SchedulerHandler.schedulePersistent(new CommandSpellExecutor(le, spell, time, power, distance)::tick);
 		}
 		return true;
 	}

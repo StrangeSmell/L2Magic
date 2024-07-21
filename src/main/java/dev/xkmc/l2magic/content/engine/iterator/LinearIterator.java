@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.iterator;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
@@ -17,7 +18,7 @@ public record LinearIterator(DoubleVariable alongDir, Vec3 offset, DoubleVariabl
 							 boolean startFromOrigin, ConfiguredEngine<?> child, @Nullable String index)
 		implements Iterator<LinearIterator> {
 
-	public static Codec<LinearIterator> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static MapCodec<LinearIterator> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.optionalCodec("alongDir", e -> e.alongDir),
 			Vec3.CODEC.optionalFieldOf("offset").forGetter(e -> Optional.of(e.offset)),
 			DoubleVariable.optionalCodec("alongOffset", e -> e.alongOffset),

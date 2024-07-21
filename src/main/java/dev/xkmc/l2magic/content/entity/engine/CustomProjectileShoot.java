@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.entity.engine;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.BuilderContext;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
@@ -29,7 +30,7 @@ public record CustomProjectileShoot(
 		Map<String, DoubleVariable> params
 ) implements ShootProjectileInstance<CustomProjectileShoot> {
 
-	public static final Codec<CustomProjectileShoot> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<CustomProjectileShoot> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.optionalCodec("speed", e -> e.speed),
 			ProjectileConfig.HOLDER.fieldOf("config").forGetter(e -> e.config),
 			IntVariable.codec("life", e -> e.life),
@@ -66,7 +67,7 @@ public record CustomProjectileShoot(
 	@Override
 	public boolean verify(BuilderContext ctx) {
 		boolean pass = true;
-		for (var e : config.get().params()) {
+		for (var e : config.value().params()) {
 			if (!params.containsKey(e)) {
 				ctx.error("Missing key [" + e + "]");
 				pass = false;

@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.engine.context;
 
-import dev.xkmc.l2library.init.events.GeneralEventHandler;
+import dev.xkmc.l2core.events.SchedulerHandler;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
 import dev.xkmc.l2magic.events.ClientEventHandler;
 import dev.xkmc.shadow.objecthunter.exp4j.Expression;
@@ -73,7 +73,7 @@ public record EngineContext(UserContext user, LocationContext loc, RandomSource 
 		if (!sche.isFinished()) {
 			if (user().level().isClientSide())
 				ClientEventHandler.schedulePersistent(sche::tick);
-			else GeneralEventHandler.schedulePersistent(sche::tick);
+			else SchedulerHandler.schedulePersistent(sche::tick);
 		}
 	}
 

@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.processor;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2damagetracker.contents.attack.AttackEventHandler;
 import dev.xkmc.l2damagetracker.contents.attack.CreateSourceEvent;
@@ -28,9 +29,9 @@ public record DamageProcessor(
 ) implements EntityProcessor<DamageProcessor> {
 
 	private static final Codec<Holder<DamageType>> DAMAGE_TYPE_CODEC =
-			RegistryFileCodec.create(Registries.DAMAGE_TYPE, DamageType.CODEC, false);
+			RegistryFileCodec.create(Registries.DAMAGE_TYPE, DamageType.DIRECT_CODEC, false);
 
-	public static final Codec<DamageProcessor> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<DamageProcessor> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DAMAGE_TYPE_CODEC.fieldOf("damage_type").forGetter(e -> e.damageType),
 			DoubleVariable.codec("damage", e -> e.damage),
 			Codec.BOOL.optionalFieldOf("indirect").forGetter(e -> Optional.of(e.indirect)),

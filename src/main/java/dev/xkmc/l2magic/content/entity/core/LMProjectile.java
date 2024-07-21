@@ -4,13 +4,13 @@ import dev.xkmc.fastprojectileapi.entity.BaseProjectile;
 import dev.xkmc.fastprojectileapi.entity.ProjectileMovement;
 import dev.xkmc.l2magic.content.engine.context.LocationContext;
 import dev.xkmc.l2magic.content.entity.renderer.ProjectileRenderer;
-import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.l2serial.serialization.codec.PacketCodec;
 import dev.xkmc.l2serial.serialization.codec.TagCodec;
+import dev.xkmc.l2serial.serialization.marker.SerialClass;
+import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.l2serial.util.Wrappers;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,16 +18,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
 
 @SerialClass
 public class LMProjectile extends BaseProjectile {
 
-	@SerialClass.SerialField(toClient = true)
+	@SerialField
 	private ProjectileData data;
 
 	public LMProjectile(EntityType<? extends LMProjectile> pEntityType, Level pLevel) {
@@ -74,24 +70,25 @@ public class LMProjectile extends BaseProjectile {
 
 	public void addAdditionalSaveData(CompoundTag nbt) {
 		super.addAdditionalSaveData(nbt);
-		nbt.put("auto-serial", Objects.requireNonNull(TagCodec.toTag(new CompoundTag(), this)));
+		var data = new TagCodec(level().registryAccess()).toTag(new CompoundTag(), this);
+		if (data != null) nbt.put("auto-serial", data);
 	}
 
 	public void readAdditionalSaveData(CompoundTag nbt) {
 		super.readAdditionalSaveData(nbt);
 		if (nbt.contains("auto-serial")) {
-			Wrappers.run(() -> TagCodec.fromTag(nbt.getCompound("auto-serial"), getClass(), this, (f) -> true));
+			Wrappers.run(() -> new TagCodec(level().registryAccess()).fromTag(nbt.getCompound("auto-serial"), getClass(), this));
 		}
 	}
 
 	@Override
-	public void writeSpawnData(FriendlyByteBuf buffer) {
+	public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
 		super.writeSpawnData(buffer);
 		PacketCodec.to(buffer, this);
 	}
 
 	@Override
-	public void readSpawnData(FriendlyByteBuf additionalData) {
+	public void readSpawnData(RegistryFriendlyByteBuf additionalData) {
 		super.readSpawnData(additionalData);
 		PacketCodec.from(additionalData, getClass(), Wrappers.cast(this));
 	}
@@ -122,7 +119,6 @@ public class LMProjectile extends BaseProjectile {
 		return LocationContext.of(new Vec3(getX(), getY(0.5), getZ()), getForward());
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	@Nullable
 	public ProjectileRenderer getRenderer() {
 		return data.getRenderer(this);

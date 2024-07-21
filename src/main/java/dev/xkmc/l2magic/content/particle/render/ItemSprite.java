@@ -4,7 +4,7 @@ import dev.xkmc.l2magic.content.particle.core.LMGenericParticle;
 import dev.xkmc.l2magic.content.particle.engine.RenderTypePreset;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelData;
 
 public record ItemSprite(RenderTypePreset renderType, ItemStack stack, SpriteGeom goem) implements ModelSpriteData {
 

@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.engine.modifier;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.context.LocationContext;
@@ -13,7 +13,7 @@ import net.minecraft.world.phys.Vec3;
 public record OffsetModifier(DoubleVariable x, DoubleVariable y, DoubleVariable z)
 		implements Modifier<OffsetModifier> {
 
-	public static Codec<OffsetModifier> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static MapCodec<OffsetModifier> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.optionalCodec("x", OffsetModifier::x),
 			DoubleVariable.optionalCodec("y", OffsetModifier::y),
 			DoubleVariable.optionalCodec("z", OffsetModifier::z)

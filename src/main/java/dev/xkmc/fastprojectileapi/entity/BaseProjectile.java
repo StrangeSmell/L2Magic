@@ -20,11 +20,6 @@ public abstract class BaseProjectile extends SimplifiedProjectile {
 		super(pEntityType, pLevel);
 	}
 
-	@Override
-	protected void defineSynchedData() {
-
-	}
-
 	public abstract boolean checkBlockHit();
 
 	public abstract int lifetime();

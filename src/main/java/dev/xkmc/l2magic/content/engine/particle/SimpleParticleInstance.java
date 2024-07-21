@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.engine.particle;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.BuilderContext;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
@@ -9,15 +9,15 @@ import dev.xkmc.l2magic.content.engine.variable.DoubleVariable;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 import javax.annotation.Nullable;
 
 public record SimpleParticleInstance(ParticleType<?> particle, DoubleVariable speed)
 		implements ParticleInstance<SimpleParticleInstance> {
 
-	public static final Codec<SimpleParticleInstance> CODEC = RecordCodecBuilder.create(i -> i.group(
-			ForgeRegistries.PARTICLE_TYPES.getCodec().fieldOf("particle").forGetter(e -> e.particle),
+	public static final MapCodec<SimpleParticleInstance> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+			BuiltInRegistries.PARTICLE_TYPE.byNameCodec().fieldOf("particle").forGetter(e -> e.particle),
 			DoubleVariable.codec("speed", ParticleInstance::speed)
 	).apply(i, SimpleParticleInstance::new));
 

@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.engine.selector;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EntitySelector;
@@ -23,7 +23,7 @@ public record ArcCubeSelector(
 		DoubleVariable maxAngle
 ) implements EntitySelector<ArcCubeSelector> {
 
-	public static final Codec<ArcCubeSelector> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<ArcCubeSelector> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			IntVariable.codec("step", ArcCubeSelector::step),
 			DoubleVariable.codec("radius", ArcCubeSelector::radius),
 			DoubleVariable.codec("size", ArcCubeSelector::size),

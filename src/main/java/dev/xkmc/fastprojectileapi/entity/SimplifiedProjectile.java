@@ -2,6 +2,7 @@ package dev.xkmc.fastprojectileapi.entity;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -15,7 +16,7 @@ import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.UUID;
 
-public abstract class SimplifiedProjectile extends SimplifiedEntity implements TraceableEntity, IEntityAdditionalSpawnData {
+public abstract class SimplifiedProjectile extends SimplifiedEntity implements TraceableEntity {
 
 	@Nullable
 	private UUID ownerUUID;
@@ -113,7 +114,7 @@ public abstract class SimplifiedProjectile extends SimplifiedEntity implements T
 
 	@OverridingMethodsMustInvokeSuper
 	@Override
-	public void writeSpawnData(FriendlyByteBuf buffer) {
+	public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
 		buffer.writeLong(level().getGameTime() - tickCount);
 		var owner = getOwner();
 		buffer.writeInt(owner == null ? -1 : owner.getId());
@@ -121,7 +122,7 @@ public abstract class SimplifiedProjectile extends SimplifiedEntity implements T
 
 	@OverridingMethodsMustInvokeSuper
 	@Override
-	public void readSpawnData(FriendlyByteBuf additionalData) {
+	public void readSpawnData(RegistryFriendlyByteBuf additionalData) {
 		tickCount = (int) (level().getGameTime() - additionalData.readLong());
 		int id = additionalData.readInt();
 		if (id >= 0) {

@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.selector;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EntitySelector;
@@ -16,7 +17,7 @@ import java.util.List;
 public record MoveSelector(List<Modifier<?>> modifiers, EntitySelector<?> child)
 		implements EntitySelector<MoveSelector> {
 
-	public static final Codec<MoveSelector> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<MoveSelector> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			Codec.list(Modifier.CODEC).fieldOf("modifiers").forGetter(e -> e.modifiers),
 			EntitySelector.CODEC.fieldOf("child").forGetter(e -> e.child)
 	).apply(i, MoveSelector::new));

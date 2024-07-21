@@ -1,9 +1,9 @@
 package dev.xkmc.l2magic.content.particle.engine;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 
 public interface ParticleRenderType<T extends Record & ParticleRenderData<T>> {
 
-	Codec<T> codec();
+	MapCodec<T> codec();
 
 }

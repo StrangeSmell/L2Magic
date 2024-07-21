@@ -1,6 +1,6 @@
 package dev.xkmc.l2magic.content.engine.selector;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EntitySelector;
@@ -20,7 +20,7 @@ public record LinearCubeSelector(
 		DoubleVariable size
 ) implements EntitySelector<LinearCubeSelector> {
 
-	public static final Codec<LinearCubeSelector> CODEC = RecordCodecBuilder.create(i -> i.group(
+	public static final MapCodec<LinearCubeSelector> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			IntVariable.codec("step", LinearCubeSelector::step),
 			DoubleVariable.codec("size", LinearCubeSelector::size)
 	).apply(i, LinearCubeSelector::new));

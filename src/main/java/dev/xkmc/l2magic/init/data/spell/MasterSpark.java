@@ -13,7 +13,7 @@ import dev.xkmc.l2magic.content.engine.spell.*;
 import dev.xkmc.l2magic.content.engine.variable.*;
 import dev.xkmc.l2magic.init.data.SpellDataGenEntry;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.level.block.Blocks;
@@ -30,7 +30,7 @@ public class MasterSpark extends SpellDataGenEntry {
 	}
 
 	@Override
-	public void register(BootstapContext<SpellAction> ctx) {
+	public void register(BootstrapContext<SpellAction> ctx) {
 		new SpellAction(
 				masterSpark(new DataGenContext(ctx)),
 				Blocks.BEACON.asItem(), 2000,

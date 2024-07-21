@@ -27,7 +27,7 @@ import dev.xkmc.l2magic.content.particle.engine.RenderTypePreset;
 import dev.xkmc.l2magic.content.particle.engine.SimpleParticleData;
 import dev.xkmc.l2magic.init.data.SpellDataGenEntry;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -47,7 +47,7 @@ public class WinterStorm extends SpellDataGenEntry {
 	}
 
 	@Override
-	public void register(BootstapContext<SpellAction> ctx) {
+	public void register(BootstrapContext<SpellAction> ctx) {
 		new SpellAction(
 				winterStorm(new DataGenContext(ctx), 4, 1.5, 1),
 				Items.SNOWBALL, 100,

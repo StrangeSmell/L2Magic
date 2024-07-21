@@ -1,6 +1,7 @@
 package dev.xkmc.l2magic.content.engine.particle;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.EngineType;
@@ -15,8 +16,8 @@ import dev.xkmc.l2magic.content.particle.render.SpriteGeom;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public record BlockParticleInstance(
 		Block block, DoubleVariable speed,
@@ -24,8 +25,8 @@ public record BlockParticleInstance(
 		boolean breaking
 ) implements ParticleInstance<BlockParticleInstance> {
 
-	public static final Codec<BlockParticleInstance> CODEC = RecordCodecBuilder.create(i -> i.group(
-			ForgeRegistries.BLOCKS.getCodec().fieldOf("block").forGetter(e -> e.block),
+	public static final MapCodec<BlockParticleInstance> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+			BuiltInRegistries.BLOCK.byNameCodec().fieldOf("block").forGetter(e -> e.block),
 			DoubleVariable.codec("speed", ParticleInstance::speed),
 			DoubleVariable.codec("scale", e -> e.scale),
 			IntVariable.codec("life", e -> e.life),

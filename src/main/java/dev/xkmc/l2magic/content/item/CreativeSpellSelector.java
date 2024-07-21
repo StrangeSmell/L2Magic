@@ -1,5 +1,6 @@
 package dev.xkmc.l2magic.content.item;
 
+import dev.xkmc.l2core.util.Proxy;
 import dev.xkmc.l2itemselector.select.item.IItemSelector;
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2magic.content.engine.spell.SpellAction;
