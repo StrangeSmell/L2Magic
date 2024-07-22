@@ -4,6 +4,8 @@ import com.tterrag.registrate.util.entry.EntityEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import dev.xkmc.l2core.init.reg.registrate.SimpleEntry;
+import dev.xkmc.l2core.init.reg.simple.DCReg;
+import dev.xkmc.l2core.init.reg.simple.DCVal;
 import dev.xkmc.l2itemselector.init.data.L2ISTagGen;
 import dev.xkmc.l2magic.content.entity.core.LMProjectile;
 import dev.xkmc.l2magic.content.entity.renderer.LMProjectileRenderer;
@@ -36,6 +38,8 @@ public class LMItems {
 
 	public static final RegistryEntry<ParticleType<?>, LMGenericParticleType> GENERIC_PARTICLE = L2Magic.REGISTRATE
 			.simple("generic_particle", Registries.PARTICLE_TYPE, LMGenericParticleType::new);
+
+	public static final DCVal<String> SPELL = DCReg.of(L2Magic.REG).str("spell");
 
 	public static void register() {
 

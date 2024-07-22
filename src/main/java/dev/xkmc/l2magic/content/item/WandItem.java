@@ -3,15 +3,14 @@ package dev.xkmc.l2magic.content.item;
 import dev.xkmc.l2library.content.raytrace.FastItem;
 import dev.xkmc.l2library.content.raytrace.IGlowingTarget;
 import dev.xkmc.l2library.content.raytrace.RayTraceUtil;
-import dev.xkmc.l2library.util.raytrace.FastItem;
-import dev.xkmc.l2library.util.raytrace.IGlowingTarget;
-import dev.xkmc.l2library.util.raytrace.RayTraceUtil;
 import dev.xkmc.l2magic.content.engine.context.SpellContext;
 import dev.xkmc.l2magic.content.engine.spell.SpellAction;
 import dev.xkmc.l2magic.content.engine.spell.SpellCastType;
 import dev.xkmc.l2magic.content.engine.spell.SpellTriggerType;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
-import net.minecraft.nbt.Tag;
+import dev.xkmc.l2magic.init.registrate.LMItems;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -22,6 +21,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.common.CommonHooks;
 
 import javax.annotation.Nullable;
 
@@ -29,27 +29,27 @@ public class WandItem extends Item implements IGlowingTarget, FastItem {
 
 	private static final String KEY = "l2magic:spell";
 
-
 	@Nullable
-	public static ResourceLocation getSpellId(Level level, ItemStack stack) {
-		var root = stack.getTag();
-		if (stack.isEmpty() || root == null) return null;
-		if (!root.contains(KEY, Tag.TAG_STRING)) return null;
-		String id = root.getString(KEY);
-		if (!ResourceLocation.isValidResourceLocation(id))
-			return null;
-		return new ResourceLocation(id);
+	public static ResourceKey<SpellAction> getSpellId(ItemStack stack) {
+		var str = LMItems.SPELL.get(stack);
+		if (str == null) return null;
+		var rl = ResourceLocation.tryParse(str);
+		if (rl == null) return null;
+		return ResourceKey.create(EngineRegistry.SPELL, rl);
 	}
 
 	@Nullable
-	public static SpellAction getSpell(Level level, ItemStack stack) {
-		ResourceLocation id = getSpellId(level, stack);
+	public static Holder<SpellAction> getSpell(ItemStack stack) {
+		var id = getSpellId(stack);
 		if (id == null) return null;
-		return level.registryAccess().registryOrThrow(EngineRegistry.SPELL).get(id);
+		var reg = CommonHooks.resolveLookup(EngineRegistry.SPELL);
+		if (reg == null) return null;
+		var ans = reg.get(id);
+		return ans.orElse(null);
 	}
 
-	public static ItemStack setSpell(ItemStack stack, ResourceLocation id) {
-		stack.getOrCreateTag().putString(KEY, id.toString());
+	public static ItemStack setSpell(ItemStack stack, ResourceKey<SpellAction> id) {
+		LMItems.SPELL.set(stack, id.location().toString());
 		return stack;
 	}
 
@@ -61,9 +61,9 @@ public class WandItem extends Item implements IGlowingTarget, FastItem {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
-		SpellAction spell = getSpell(level, stack);
+		var spell = getSpell(stack);
 		if (spell != null) {
-			if (spell.castType() == SpellCastType.INSTANT) {
+			if (spell.value().castType() == SpellCastType.INSTANT) {
 				if (castSpell(stack, level, player, spell, 0, false)) {
 					if (!level.isClientSide) {
 						player.getCooldowns().addCooldown(this, 10);
@@ -82,12 +82,12 @@ public class WandItem extends Item implements IGlowingTarget, FastItem {
 	@Override
 	public void onUseTick(Level level, LivingEntity user, ItemStack stack, int remain) {
 		super.onUseTick(level, user, stack, remain);
-		SpellAction spell = getSpell(level, stack);
+		var spell = getSpell(stack);
 		if (spell != null) {
-			if (spell.castType() == SpellCastType.CONTINUOUS) {
+			if (spell.value().castType() == SpellCastType.CONTINUOUS) {
 				castSpell(stack, level, user, spell, getUseDuration(stack, user) - remain, false);
 			}
-			if (spell.castType() == SpellCastType.CHARGE) {
+			if (spell.value().castType() == SpellCastType.CHARGE) {
 				castSpell(stack, level, user, spell, getUseDuration(stack, user) - remain, true);
 			}
 		}
@@ -95,9 +95,9 @@ public class WandItem extends Item implements IGlowingTarget, FastItem {
 
 	@Override
 	public void releaseUsing(ItemStack stack, Level level, LivingEntity user, int remain) {
-		SpellAction spell = getSpell(level, stack);
+		var spell = getSpell(stack);
 		if (spell != null) {
-			if (spell.castType() == SpellCastType.CHARGE) {
+			if (spell.value().castType() == SpellCastType.CHARGE) {
 				castSpell(stack, level, user, spell, getUseDuration(stack, user) - remain, false);
 			}
 		}
@@ -106,18 +106,18 @@ public class WandItem extends Item implements IGlowingTarget, FastItem {
 	@Override
 	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
 		if (selected && entity instanceof Player player && level.isClientSide()) {
-			SpellAction spell = getSpell(level, stack);
-			if (spell != null && spell.triggerType() == SpellTriggerType.TARGET_ENTITY) {
+			var spell = getSpell(stack);
+			if (spell != null && spell.value().triggerType() == SpellTriggerType.TARGET_ENTITY) {
 				RayTraceUtil.clientUpdateTarget(player, getDistance(stack));
 			}
 		}
 	}
 
-	private boolean castSpell(ItemStack stack, Level level, LivingEntity user, SpellAction spell, int useTick, boolean charging) {
-		SpellContext ctx = SpellContext.castSpell(user, spell, useTick, charging ? 0 : 1, getDistance(stack));
+	private boolean castSpell(ItemStack stack, Level level, LivingEntity user, Holder<SpellAction> spell, int useTick, boolean charging) {
+		SpellContext ctx = SpellContext.castSpell(user, spell.value(), useTick, charging ? 0 : 1, getDistance(stack));
 		if (ctx == null) return false;
 		if (!level.isClientSide()) {
-			spell.execute(ctx);
+			spell.value().execute(ctx);
 		}
 		return true;
 	}
