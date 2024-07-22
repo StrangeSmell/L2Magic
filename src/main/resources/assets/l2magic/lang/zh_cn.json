@@ -6,5 +6,16 @@
   "spell_action.l2magic.flame_burst": "地狱烙印",
   "spell_action.l2magic.magic_arrow_ring": "七星剑",
   "spell_action.l2magic.magic_arrows": "神判",
-  "spell_action.l2magic.winter_storm": "暴风雪"
+  "spell_action.l2magic.winter_storm": "暴风雪",
+  "entity.l2magic.generic_projectile": "弹射物",
+  "spell_action.l2magic.earth_spike": "地刺",
+  "spell_action.l2magic.earth_spike_field": "地刺阵",
+  "spell_action.l2magic.echo_blades": "回响环刃",
+  "spell_action.l2magic.echo_rings": "回响共鸣",
+  "spell_action.l2magic.flame_charge": "烈焰冲击",
+  "spell_action.l2magic.icy_flash": "霜闪",
+  "spell_action.l2magic.magnet_core": "磁铁核心",
+  "spell_action.l2magic.master_spark": "极限火花",
+  "spell_action.l2magic.tornado": "龙卷",
+  "l2magic.title": "莱特兰·魔法引擎"
 }

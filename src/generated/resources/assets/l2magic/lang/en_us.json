@@ -2,6 +2,7 @@
   "entity.l2magic.generic_projectile": "Generic Projectile",
   "item.l2magic.creative_wand": "Creative Wand",
   "itemGroup.l2magic.magic": "L2Magic",
+  "l2magic.title": "L2Magic",
   "spell_action.l2magic.circular": "Three Bodies",
   "spell_action.l2magic.earth_spike": "Earth Spike",
   "spell_action.l2magic.earth_spike_field": "Earth Spike Field",

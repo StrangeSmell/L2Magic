@@ -161,7 +161,7 @@ public class WinterStorm extends SpellDataGenEntry {
 												NormalOffsetModifier.of("rand(" + (-vsp) + "," + vsp + ")")
 										), new CustomParticleInstance(
 												DoubleVariable.of("0"),
-												DoubleVariable.of("0.7"),
+												DoubleVariable.of("0.15"),
 												IntVariable.of("" + life),
 												true,
 												new MovePosMotion(List.of(
