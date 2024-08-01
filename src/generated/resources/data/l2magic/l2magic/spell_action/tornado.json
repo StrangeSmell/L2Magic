@@ -83,7 +83,7 @@
                     "particle": "minecraft:snowflake",
                     "renderType": "NORMAL"
                   },
-                  "scale": "0.7",
+                  "scale": "0.15",
                   "speed": "0"
                 },
                 "modifiers": [

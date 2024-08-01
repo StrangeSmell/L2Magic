@@ -9,8 +9,10 @@ import dev.xkmc.l2magic.content.engine.core.EntityProcessor;
 import dev.xkmc.l2magic.content.engine.selector.SelectionType;
 import dev.xkmc.l2magic.content.entity.renderer.ProjectileRenderData;
 import dev.xkmc.l2magic.init.L2Magic;
+import dev.xkmc.l2magic.init.data.SpellDataGenEntry;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 import net.minecraft.core.Holder;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -55,6 +57,13 @@ public record ProjectileConfig(
 		if (motion != null) motion.verify(noSche.of("motion"));
 		if (tick != null) tick.verify(withSche.of("tick"));
 		if (hit != null) hit.verify(noSche.of("hit"));
+	}
+
+
+	public void verifyOnBuild(BootstrapContext<ProjectileConfig> ctx, SpellDataGenEntry.ProjectileHolder id) {
+		verify(id.key.location());
+		ctx.register(id.key, this);
+		id.write(this);
 	}
 
 }

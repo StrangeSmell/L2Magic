@@ -2,6 +2,7 @@ package dev.xkmc.l2magic.content.engine.helper;
 
 import com.mojang.serialization.Codec;
 import dev.xkmc.l2magic.content.engine.context.BuilderContext;
+import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
 import dev.xkmc.l2magic.content.engine.core.Verifiable;
 import dev.xkmc.l2serial.serialization.type_cache.RecordCache;
 
@@ -31,14 +32,27 @@ public class EngineHelper {
 			var set = obj.verificationParameters();
 			for (var e : get(cls).children) {
 				Verifiable v = (Verifiable) e.get(obj);
-				if (v != null) v.verify(ctx.of(e.getName(), set));
+				if (v != null) {
+					if (v instanceof ConfiguredEngine<?>)
+						v.verify(ctx.of(e.getName(), set));
+					else
+						v.verify(ctx.of(e.getName()));
+				}
 			}
 			for (var e : get(cls).collections) {
-				List l = (List) e.get(obj);
-				for (int i = 0; i < l.size(); i++) {
-					if (l.get(i) instanceof Verifiable v)
-						v.verify(ctx.of(e.getName() + "[" + i + "]"));
+				Object x = e.get(obj);
+				if (x instanceof List<?> l) {
+					for (int i = 0; i < l.size(); i++) {
+						if (l.get(i) instanceof Verifiable v)
+							v.verify(ctx.of(e.getName() + "[" + i + "]"));
+					}
+				} else if (x instanceof Map<?, ?> map) {
+					for (var ent : map.entrySet()) {
+						if (ent.getValue() instanceof Verifiable v)
+							v.verify(ctx.of(e.getName() + "[" + ent.getKey() + "]"));
+					}
 				}
+
 			}
 		} catch (Exception e) {
 			throw new IllegalStateException("class " + cls.getSimpleName() + " failed configuration", e);
@@ -64,6 +78,9 @@ public class EngineHelper {
 				children.add(e);
 			}
 			if (List.class.isAssignableFrom(e.getType())) {
+				collections.add(e);
+			}
+			if (Map.class.isAssignableFrom(e.getType())) {
 				collections.add(e);
 			}
 		}
