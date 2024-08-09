@@ -1,6 +1,8 @@
 package dev.xkmc.l2magic.init.registrate;
 
 import dev.xkmc.l2core.init.reg.simple.Val;
+import dev.xkmc.l2magic.content.engine.block.SetBlock;
+import dev.xkmc.l2magic.content.engine.block.SetBlockFacing;
 import dev.xkmc.l2magic.content.engine.core.*;
 import dev.xkmc.l2magic.content.engine.helper.EngineRegistryInstance;
 import dev.xkmc.l2magic.content.engine.iterator.*;
@@ -67,6 +69,7 @@ public class EngineRegistry {
 
 	public static final Val<EngineType<LoopIterator>> ITERATE = register("iterate", () -> LoopIterator.CODEC);
 	public static final Val<EngineType<DelayedIterator>> ITERATE_DELAY = register("iterate_delayed", () -> DelayedIterator.CODEC);
+	public static final Val<EngineType<WhileDelayedIterator>> WHILE_DELAY = register("while_delayed", () -> WhileDelayedIterator.CODEC);//TODO doc
 	public static final Val<EngineType<LinearIterator>> ITERATE_LINEAR = register("iterate_linear", () -> LinearIterator.CODEC);
 	public static final Val<EngineType<RingIterator>> ITERATE_ARC = register("iterate_arc", () -> RingIterator.CODEC);
 	public static final Val<EngineType<RingRandomIterator>> RANDOM_FAN = register("random_pos_fan", () -> RingRandomIterator.CODEC);
@@ -80,6 +83,9 @@ public class EngineRegistry {
 	public static final Val<EngineType<CustomParticleInstance>> CUSTOM_PARTICLE = register("custom_particle", () -> CustomParticleInstance.CODEC);//TODO doc
 
 	public static final Val<EngineType<SoundInstance>> SOUND = register("sound", () -> SoundInstance.CODEC);//TODO doc
+
+	public static final Val<EngineType<SetBlock>> SET_BLOCK = register("set_block", () -> SetBlock.CODEC);//TODO doc
+	public static final Val<EngineType<SetBlockFacing>> SET_BLOCK_FACING = register("set_block_facing", () -> SetBlockFacing.CODEC);//TODO doc
 
 	public static final Val<EngineType<ArrowShoot>> ARROW = register("arrow", () -> ArrowShoot.CODEC);//TODO doc
 	public static final Val<EngineType<TridentShoot>> TRIDENT = register("trident", () -> TridentShoot.CODEC);//TODO doc

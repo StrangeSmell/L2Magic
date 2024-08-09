@@ -3,6 +3,7 @@ package dev.xkmc.l2magic.content.engine.context;
 import dev.xkmc.l2core.events.ClientScheduler;
 import dev.xkmc.l2core.events.SchedulerHandler;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
+import dev.xkmc.l2magic.content.engine.core.IPredicate;
 import dev.xkmc.shadow.objecthunter.exp4j.Expression;
 import net.minecraft.util.RandomSource;
 
@@ -20,6 +21,15 @@ public record EngineContext(UserContext user, LocationContext loc, RandomSource 
 		var ans = new LinkedHashMap<>(parameters);
 		ans.put(key, val);
 		return new EngineContext(user, loc, rand, ans);
+	}
+
+	public boolean test(LocationContext loc, @Nullable String index, int i, IPredicate pred) {
+		if (index == null || index.isEmpty()) {
+			return pred.test(new EngineContext(user, loc, nextRand(), parameters));
+		}
+		var param = new LinkedHashMap<>(parameters);
+		param.put(index, (double) i);
+		return pred.test(new EngineContext(user, loc, nextRand(), param));
 	}
 
 	public void iterateOn(LocationContext loc, @Nullable String index, int i, ConfiguredEngine<?> child) {
