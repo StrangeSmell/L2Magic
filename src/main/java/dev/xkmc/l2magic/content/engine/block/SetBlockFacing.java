@@ -6,7 +6,6 @@ import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
 import dev.xkmc.l2magic.content.engine.core.EngineType;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -37,7 +36,7 @@ public record SetBlockFacing(
 		if (state.hasProperty(BlockStateProperties.AXIS)) {
 			state = state.setValue(BlockStateProperties.AXIS, Direction.getNearest(ctx.loc().dir()).getAxis());
 		}
-		ctx.user().level().setBlockAndUpdate(BlockPos.containing(ctx.loc().pos()), state);
+		BlockUtils.set(ctx, state);
 	}
 
 }

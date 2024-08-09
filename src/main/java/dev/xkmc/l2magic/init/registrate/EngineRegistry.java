@@ -1,6 +1,8 @@
 package dev.xkmc.l2magic.init.registrate;
 
 import dev.xkmc.l2core.init.reg.simple.Val;
+import dev.xkmc.l2magic.content.engine.block.KnockBlock;
+import dev.xkmc.l2magic.content.engine.block.RemoveBlock;
 import dev.xkmc.l2magic.content.engine.block.SetBlock;
 import dev.xkmc.l2magic.content.engine.block.SetBlockFacing;
 import dev.xkmc.l2magic.content.engine.core.*;
@@ -83,6 +85,8 @@ public class EngineRegistry {
 
 	public static final Val<EngineType<SetBlock>> SET_BLOCK = register("set_block", () -> SetBlock.CODEC);//TODO doc
 	public static final Val<EngineType<SetBlockFacing>> SET_BLOCK_FACING = register("set_block_facing", () -> SetBlockFacing.CODEC);//TODO doc
+	public static final Val<EngineType<RemoveBlock>> REMOVE_BLOCK = register("remove_block", () -> RemoveBlock.CODEC);//TODO doc
+	public static final Val<EngineType<KnockBlock>> KNOCK_BLOCK = register("knock_block", () -> KnockBlock.CODEC);//TODO doc
 
 	public static final Val<EngineType<ArrowShoot>> ARROW = register("arrow", () -> ArrowShoot.CODEC);//TODO doc
 	public static final Val<EngineType<TridentShoot>> TRIDENT = register("trident", () -> TridentShoot.CODEC);//TODO doc
