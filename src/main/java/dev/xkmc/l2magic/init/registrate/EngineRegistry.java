@@ -9,10 +9,7 @@ import dev.xkmc.l2magic.content.engine.iterator.*;
 import dev.xkmc.l2magic.content.engine.logic.*;
 import dev.xkmc.l2magic.content.engine.modifier.*;
 import dev.xkmc.l2magic.content.engine.particle.*;
-import dev.xkmc.l2magic.content.engine.predicate.AndPredicate;
-import dev.xkmc.l2magic.content.engine.predicate.BlockPredicate;
-import dev.xkmc.l2magic.content.engine.predicate.MovePredicate;
-import dev.xkmc.l2magic.content.engine.predicate.OrPredicate;
+import dev.xkmc.l2magic.content.engine.predicate.*;
 import dev.xkmc.l2magic.content.engine.processor.*;
 import dev.xkmc.l2magic.content.engine.selector.*;
 import dev.xkmc.l2magic.content.engine.sound.SoundInstance;
@@ -103,7 +100,9 @@ public class EngineRegistry {
 	public static final Val<PredicateType<AndPredicate>> AND = register("and", () -> AndPredicate.CODEC);//TODO docs
 	public static final Val<PredicateType<OrPredicate>> OR = register("or", () -> OrPredicate.CODEC);//TODO docs
 	public static final Val<PredicateType<MovePredicate>> MOVE_PRED = register("move", () -> MovePredicate.CODEC);//TODO docs
-	public static final Val<PredicateType<BlockPredicate>> BLOCK_PRED = register("block", () -> BlockPredicate.CODEC);//TODO docs
+	public static final Val<PredicateType<BlockMatchCondition>> BLOCK_PRED = register("block", () -> BlockMatchCondition.CODEC);//TODO docs
+	public static final Val<PredicateType<FullTopSurfaceCondition>> TOP_SURFACE = register("top_surface", () -> FullTopSurfaceCondition.CODEC);//TODO docs
+	public static final Val<PredicateType<ReplaceableCondition>> REPLACEABLE = register("replaceable", () -> ReplaceableCondition.CODEC);//TODO docs
 
 	public static final Val<ProcessorType<DamageProcessor>> DAMAGE = register("damage", () -> DamageProcessor.CODEC);
 	public static final Val<ProcessorType<KnockBackProcessor>> KB = register("knockback", () -> KnockBackProcessor.CODEC);
