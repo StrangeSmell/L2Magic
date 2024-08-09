@@ -1,7 +1,7 @@
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 
-package dev.xkmc.fastprojectileapi.collision;
+package dev.xkmc.l2magic.content.engine.predicate;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

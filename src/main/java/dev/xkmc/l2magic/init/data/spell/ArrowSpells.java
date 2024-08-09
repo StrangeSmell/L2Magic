@@ -23,6 +23,9 @@ import dev.xkmc.l2magic.content.engine.spell.SpellCastType;
 import dev.xkmc.l2magic.content.engine.spell.SpellTriggerType;
 import dev.xkmc.l2magic.content.engine.variable.DoubleVariable;
 import dev.xkmc.l2magic.content.engine.variable.IntVariable;
+import dev.xkmc.l2magic.content.entity.core.ProjectileConfig;
+import dev.xkmc.l2magic.content.entity.engine.CustomProjectileShoot;
+import dev.xkmc.l2magic.content.entity.motion.MovePosMotion;
 import dev.xkmc.l2magic.init.data.SpellDataGenEntry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -32,6 +35,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ArrowSpells extends SpellDataGenEntry {
 
@@ -39,12 +44,15 @@ public class ArrowSpells extends SpellDataGenEntry {
 	public static final ResourceKey<SpellAction> ARROW = spell("magic_arrows");
 	public static final ResourceKey<SpellAction> ARROW_RING = spell("magic_arrow_ring");
 	public static final ResourceKey<SpellAction> CIRCULAR = spell("circular");
+	public static final ResourceKey<SpellAction> CIRCULAR_ENTITY = spell("circular_entity");
+	public static final ProjectileHolder CIRCULAR_PROJECTILE = projectile("circular_projectile");
 
 	@Override
 	public void genLang(RegistrateLangProvider pvd) {
 		pvd.add(SpellAction.lang(ARROW_RING.location()), "Sword of Seven");
 		pvd.add(SpellAction.lang(ARROW.location()), "Angelic Judgement");
 		pvd.add(SpellAction.lang(CIRCULAR.location()), "Three Bodies");
+		pvd.add(SpellAction.lang(CIRCULAR_ENTITY.location()), "Three Moons");
 	}
 
 	@Override
@@ -67,6 +75,19 @@ public class ArrowSpells extends SpellDataGenEntry {
 				SpellCastType.INSTANT,
 				SpellTriggerType.SELF_POS
 		).verifyOnBuild(ctx, CIRCULAR);
+
+		new SpellAction(
+				circularEntity(new DataGenContext(ctx)),
+				Items.SHULKER_SHELL, 650,
+				SpellCastType.INSTANT,
+				SpellTriggerType.SELF_POS
+		).verifyOnBuild(ctx, CIRCULAR_ENTITY);
+	}
+
+	@Override
+	public void registerProjectile(BootstrapContext<ProjectileConfig> ctx) {
+		circularProjectile(new DataGenContext(ctx))
+				.verifyOnBuild(ctx, CIRCULAR_PROJECTILE);
 	}
 
 	private static ConfiguredEngine<?> arrowRing(DataGenContext ctx) {
@@ -202,5 +223,65 @@ public class ArrowSpells extends SpellDataGenEntry {
 						))), "i");
 	}
 
+	private static ProjectileConfig circularProjectile(DataGenContext ctx) {
+		return new ProjectileConfig(
+				Set.of("angle"),
+				SelectionType.ENEMY_NO_FAMILY,
+				new MovePosMotion(List.of(
+						new SetPosModifier(
+								DoubleVariable.of("CasterX+(0.5+TickCount*0.1)*cosDegree(angle+TickCount*14)"),
+								DoubleVariable.of("CasterY+1"),
+								DoubleVariable.of("CasterZ+(0.5+TickCount*0.1)*sinDegree(angle+TickCount*14)")
+						)
+				)),
+				new ListLogic(List.of(
+						new ProcessorEngine(SelectionType.ENEMY,
+								new BoxSelector(
+										DoubleVariable.of("1"),
+										DoubleVariable.of("1"),
+										true
+								), List.of(
+								new DamageProcessor(
+										ctx.damage(DamageTypes.INDIRECT_MAGIC),
+										DoubleVariable.of("6"),
+										true, true),
+								new PushProcessor(
+										DoubleVariable.of("0.3"),
+										DoubleVariable.of("0"),
+										DoubleVariable.of("10"),
+										PushProcessor.Type.UNIFORM
+								)
+						)),
+						new SimpleParticleInstance(
+								ParticleTypes.END_ROD,
+								DoubleVariable.ZERO
+						)
+				)),
+				null,
+				null
+		);
+	}
+
+	private static ConfiguredEngine<?> circularEntity(DataGenContext ctx) {
+		return new MoveEngine(List.of(
+				new ToCurrentCasterPosModifier(),
+				OffsetModifier.of("0", "1", "0")),
+				new RingIterator(
+						DoubleVariable.of("0.5"),
+						DoubleVariable.of("-180"),
+						DoubleVariable.of("180"),
+						IntVariable.of("3"),
+						false,
+						new CustomProjectileShoot(
+								DoubleVariable.ZERO,
+								CIRCULAR_PROJECTILE,
+								IntVariable.of("60"),
+								true, true,
+								Map.of("angle", DoubleVariable.of("i*120"))
+						),
+						"i"
+				)
+		);
+	}
 
 }

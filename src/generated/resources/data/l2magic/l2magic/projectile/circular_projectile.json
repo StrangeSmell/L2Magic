@@ -1,0 +1,53 @@
+{
+  "filter": "ENEMY_NO_FAMILY",
+  "motion": {
+    "type": "l2magic:control_position",
+    "modifiers": [
+      {
+        "type": "l2magic:set_position",
+        "x": "CasterX+(0.5+TickCount*0.1)*cosDegree(angle+TickCount*14)",
+        "y": "CasterY+1",
+        "z": "CasterZ+(0.5+TickCount*0.1)*sinDegree(angle+TickCount*14)"
+      }
+    ]
+  },
+  "params": [
+    "angle"
+  ],
+  "tick": {
+    "type": "l2magic:list",
+    "children": [
+      {
+        "type": "l2magic:processor",
+        "processors": [
+          {
+            "type": "l2magic:damage",
+            "damage": "6",
+            "damage_type": "minecraft:indirect_magic",
+            "indirect": true,
+            "positioned": true
+          },
+          {
+            "type": "l2magic:push",
+            "angle": "0",
+            "from_center": "UNIFORM",
+            "speed": "0.3",
+            "tilt": "10"
+          }
+        ],
+        "selector": {
+          "type": "l2magic:box",
+          "center": true,
+          "size": "1",
+          "y": "1"
+        },
+        "target": "ENEMY"
+      },
+      {
+        "type": "l2magic:particle",
+        "particle": "minecraft:end_rod",
+        "speed": "0"
+      }
+    ]
+  }
+}

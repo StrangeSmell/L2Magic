@@ -1,7 +1,7 @@
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 
-package dev.xkmc.fastprojectileapi.entity;
+package dev.xkmc.l2magic.content.engine.block;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

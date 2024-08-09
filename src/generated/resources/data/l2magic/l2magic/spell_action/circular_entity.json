@@ -1,0 +1,40 @@
+{
+  "action": {
+    "type": "l2magic:move",
+    "child": {
+      "type": "l2magic:iterate_arc",
+      "child": {
+        "type": "l2magic:custom_projectile",
+        "bypassEntity": true,
+        "bypassWall": true,
+        "config": "l2magic:circular_projectile",
+        "life": "60",
+        "params": {
+          "angle": "i*120"
+        },
+        "speed": "0"
+      },
+      "count": "3",
+      "index": "i",
+      "maxAngle": "180",
+      "maxInclusive": false,
+      "minAngle": "-180",
+      "radius": "0.5"
+    },
+    "modifiers": [
+      {
+        "type": "l2magic:move_to_caster"
+      },
+      {
+        "type": "l2magic:offset",
+        "x": "0",
+        "y": "1",
+        "z": "0"
+      }
+    ]
+  },
+  "cast_type": "INSTANT",
+  "icon": "minecraft:shulker_shell",
+  "order": 650,
+  "trigger_type": "SELF_POS"
+}

@@ -61,6 +61,7 @@ public record CustomProjectileShoot(
 		);
 		ProjectileData data = new ProjectileData(paramSet, config);
 		ans.setup(data, ctx.loc().pos(), ctx.loc().dir().scale(speed.eval(ctx)));
+		ans.setOwner(ctx.user().user());
 		return ans;
 	}
 

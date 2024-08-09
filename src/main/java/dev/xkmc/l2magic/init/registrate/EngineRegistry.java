@@ -1,12 +1,15 @@
 package dev.xkmc.l2magic.init.registrate;
 
 import dev.xkmc.l2core.init.reg.simple.Val;
+import dev.xkmc.l2magic.content.engine.block.SetBlock;
+import dev.xkmc.l2magic.content.engine.block.SetBlockFacing;
 import dev.xkmc.l2magic.content.engine.core.*;
 import dev.xkmc.l2magic.content.engine.helper.EngineRegistryInstance;
 import dev.xkmc.l2magic.content.engine.iterator.*;
 import dev.xkmc.l2magic.content.engine.logic.*;
 import dev.xkmc.l2magic.content.engine.modifier.*;
 import dev.xkmc.l2magic.content.engine.particle.*;
+import dev.xkmc.l2magic.content.engine.predicate.*;
 import dev.xkmc.l2magic.content.engine.processor.*;
 import dev.xkmc.l2magic.content.engine.selector.*;
 import dev.xkmc.l2magic.content.engine.sound.SoundInstance;
@@ -34,6 +37,7 @@ public class EngineRegistry {
 
 	public static final EngineRegistryInstance<EngineType<?>> ENGINE = EngineRegistryInstance.of("configured_engine");
 	public static final EngineRegistryInstance<ModifierType<?>> MODIFIER = EngineRegistryInstance.of("modifier");
+	public static final EngineRegistryInstance<PredicateType<?>> PREDICATE = EngineRegistryInstance.of("predicate");
 	public static final EngineRegistryInstance<SelectorType<?>> SELECTOR = EngineRegistryInstance.of("selector");
 	public static final EngineRegistryInstance<ProcessorType<?>> PROCESSOR = EngineRegistryInstance.of("processor");
 	public static final EngineRegistryInstance<MotionType<?>> MOTION = EngineRegistryInstance.of("motion");
@@ -62,6 +66,7 @@ public class EngineRegistry {
 
 	public static final Val<EngineType<LoopIterator>> ITERATE = register("iterate", () -> LoopIterator.CODEC);
 	public static final Val<EngineType<DelayedIterator>> ITERATE_DELAY = register("iterate_delayed", () -> DelayedIterator.CODEC);
+	public static final Val<EngineType<WhileDelayedIterator>> WHILE_DELAY = register("while_delayed", () -> WhileDelayedIterator.CODEC);//TODO doc
 	public static final Val<EngineType<LinearIterator>> ITERATE_LINEAR = register("iterate_linear", () -> LinearIterator.CODEC);
 	public static final Val<EngineType<RingIterator>> ITERATE_ARC = register("iterate_arc", () -> RingIterator.CODEC);
 	public static final Val<EngineType<RingRandomIterator>> RANDOM_FAN = register("random_pos_fan", () -> RingRandomIterator.CODEC);
@@ -76,6 +81,9 @@ public class EngineRegistry {
 
 	public static final Val<EngineType<SoundInstance>> SOUND = register("sound", () -> SoundInstance.CODEC);//TODO doc
 
+	public static final Val<EngineType<SetBlock>> SET_BLOCK = register("set_block", () -> SetBlock.CODEC);//TODO doc
+	public static final Val<EngineType<SetBlockFacing>> SET_BLOCK_FACING = register("set_block_facing", () -> SetBlockFacing.CODEC);//TODO doc
+
 	public static final Val<EngineType<ArrowShoot>> ARROW = register("arrow", () -> ArrowShoot.CODEC);//TODO doc
 	public static final Val<EngineType<TridentShoot>> TRIDENT = register("trident", () -> TridentShoot.CODEC);//TODO doc
 	public static final Val<EngineType<CustomProjectileShoot>> CUSTOM_SHOOT = register("custom_projectile", () -> CustomProjectileShoot.CODEC);//TODO doc
@@ -88,6 +96,13 @@ public class EngineRegistry {
 	public static final Val<SelectorType<ArcCubeSelector>> ARC = register("arc", () -> ArcCubeSelector.CODEC);
 	public static final Val<SelectorType<ApproxCylinderSelector>> CYLINDER = register("cylinder", () -> ApproxCylinderSelector.CODEC);
 	public static final Val<SelectorType<ApproxBallSelector>> BALL = register("ball", () -> ApproxBallSelector.CODEC);
+
+	public static final Val<PredicateType<AndPredicate>> AND = register("and", () -> AndPredicate.CODEC);//TODO docs
+	public static final Val<PredicateType<OrPredicate>> OR = register("or", () -> OrPredicate.CODEC);//TODO docs
+	public static final Val<PredicateType<MovePredicate>> MOVE_PRED = register("move", () -> MovePredicate.CODEC);//TODO docs
+	public static final Val<PredicateType<BlockMatchCondition>> BLOCK_PRED = register("block", () -> BlockMatchCondition.CODEC);//TODO docs
+	public static final Val<PredicateType<FullTopSurfaceCondition>> TOP_SURFACE = register("top_surface", () -> FullTopSurfaceCondition.CODEC);//TODO docs
+	public static final Val<PredicateType<ReplaceableCondition>> REPLACEABLE = register("replaceable", () -> ReplaceableCondition.CODEC);//TODO docs
 
 	public static final Val<ProcessorType<DamageProcessor>> DAMAGE = register("damage", () -> DamageProcessor.CODEC);
 	public static final Val<ProcessorType<KnockBackProcessor>> KB = register("knockback", () -> KnockBackProcessor.CODEC);
@@ -121,6 +136,11 @@ public class EngineRegistry {
 	private static <T extends Record & Modifier<T>> Val<ModifierType<T>>
 	register(String id, ModifierType<T> codec) {
 		return new Val.Registrate<>(L2Magic.REGISTRATE.simple(id, MODIFIER.key(), () -> codec));
+	}
+
+	private static <T extends Record & ContextPredicate<T>> Val<PredicateType<T>>
+	register(String id, PredicateType<T> codec) {
+		return new Val.Registrate<>(L2Magic.REGISTRATE.simple(id, PREDICATE.key(), () -> codec));
 	}
 
 	private static <T extends Record & EntityProcessor<T>> Val<ProcessorType<T>>

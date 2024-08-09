@@ -15,6 +15,11 @@ public class LMDatapackRegistriesGen extends DatapackBuiltinEntriesProvider {
 
 
 	private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
+			.add(EngineRegistry.PROJECTILE, ctx -> {
+				for (var e : SpellDataGenRegistry.LIST) {
+					e.registerProjectile(ctx);
+				}
+			})
 			.add(EngineRegistry.SPELL, ctx -> {
 				for (var e : SpellDataGenRegistry.LIST) {
 					e.register(ctx);

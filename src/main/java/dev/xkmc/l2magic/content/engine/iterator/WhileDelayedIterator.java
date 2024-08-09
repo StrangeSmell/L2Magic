@@ -7,25 +7,28 @@ import dev.xkmc.l2magic.content.engine.context.BuilderContext;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
 import dev.xkmc.l2magic.content.engine.core.EngineType;
+import dev.xkmc.l2magic.content.engine.core.IPredicate;
 import dev.xkmc.l2magic.content.engine.variable.IntVariable;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public record DelayedIterator(IntVariable step, IntVariable delay, ConfiguredEngine<?> child, @Nullable String index)
-		implements Iterator<DelayedIterator> {
+public record WhileDelayedIterator(IntVariable step, IntVariable delay, IPredicate condition, ConfiguredEngine<?> child,
+								   @Nullable String index)
+		implements Iterator<WhileDelayedIterator> {
 
-	public static MapCodec<DelayedIterator> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-			IntVariable.codec("step", DelayedIterator::step),
-			IntVariable.codec("delay", DelayedIterator::delay),
+	public static MapCodec<WhileDelayedIterator> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+			IntVariable.codec("step", WhileDelayedIterator::step),
+			IntVariable.codec("delay", WhileDelayedIterator::delay),
+			IPredicate.CODEC.fieldOf("condition").forGetter(WhileDelayedIterator::condition),
 			ConfiguredEngine.codec("child", Iterator::child),
 			Codec.STRING.optionalFieldOf("index").forGetter(e -> Optional.ofNullable(e.index))
-	).apply(i, (d, e, f, g) -> new DelayedIterator(d, e, f, g.orElse(null))));
+	).apply(i, (d, e, c, f, g) -> new WhileDelayedIterator(d, e, c, f, g.orElse(null))));
 
 	@Override
-	public EngineType<DelayedIterator> type() {
-		return EngineRegistry.ITERATE_DELAY.get();
+	public EngineType<WhileDelayedIterator> type() {
+		return EngineRegistry.WHILE_DELAY.get();
 	}
 
 	@Override
@@ -36,6 +39,8 @@ public record DelayedIterator(IntVariable step, IntVariable delay, ConfiguredEng
 	}
 
 	private void recursion(EngineContext ctx, int i, int step, int delay) {
+		if (!ctx.test(ctx.loc(), index, i, condition))
+			return;
 		ctx.iterateOn(ctx.loc(), index, i, child);
 		int next = i + 1;
 		if (next < step) {
