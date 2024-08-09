@@ -27,6 +27,8 @@ public record RemoveBlock(
 	public void execute(EngineContext ctx) {
 		var level = ctx.user().level();
 		var pos = BlockPos.containing(ctx.loc().pos());
+		var state = level.getBlockState(pos);
+		if (state.isAir()) return;
 		if (clearFluid) level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 		else level.removeBlock(pos, false);
 	}
