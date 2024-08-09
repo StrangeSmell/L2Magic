@@ -3,6 +3,7 @@ package dev.xkmc.l2magic.content.engine.helper;
 import com.mojang.serialization.Codec;
 import dev.xkmc.l2magic.content.engine.context.BuilderContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
+import dev.xkmc.l2magic.content.engine.core.ParameterizedVerifiable;
 import dev.xkmc.l2magic.content.engine.core.Verifiable;
 import dev.xkmc.l2serial.serialization.type_cache.RecordCache;
 
@@ -33,7 +34,7 @@ public class EngineHelper {
 			for (var e : get(cls).children) {
 				Verifiable v = (Verifiable) e.get(obj);
 				if (v != null) {
-					if (v instanceof ConfiguredEngine<?>)
+					if (v instanceof ParameterizedVerifiable)
 						v.verify(ctx.of(e.getName(), set));
 					else
 						v.verify(ctx.of(e.getName()));

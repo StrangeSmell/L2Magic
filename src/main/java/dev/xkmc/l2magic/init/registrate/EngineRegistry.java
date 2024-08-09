@@ -7,6 +7,10 @@ import dev.xkmc.l2magic.content.engine.iterator.*;
 import dev.xkmc.l2magic.content.engine.logic.*;
 import dev.xkmc.l2magic.content.engine.modifier.*;
 import dev.xkmc.l2magic.content.engine.particle.*;
+import dev.xkmc.l2magic.content.engine.predicate.AndPredicate;
+import dev.xkmc.l2magic.content.engine.predicate.BlockPredicate;
+import dev.xkmc.l2magic.content.engine.predicate.MovePredicate;
+import dev.xkmc.l2magic.content.engine.predicate.OrPredicate;
 import dev.xkmc.l2magic.content.engine.processor.*;
 import dev.xkmc.l2magic.content.engine.selector.*;
 import dev.xkmc.l2magic.content.engine.sound.SoundInstance;
@@ -34,6 +38,7 @@ public class EngineRegistry {
 
 	public static final EngineRegistryInstance<EngineType<?>> ENGINE = EngineRegistryInstance.of("configured_engine");
 	public static final EngineRegistryInstance<ModifierType<?>> MODIFIER = EngineRegistryInstance.of("modifier");
+	public static final EngineRegistryInstance<PredicateType<?>> PREDICATE = EngineRegistryInstance.of("predicate");
 	public static final EngineRegistryInstance<SelectorType<?>> SELECTOR = EngineRegistryInstance.of("selector");
 	public static final EngineRegistryInstance<ProcessorType<?>> PROCESSOR = EngineRegistryInstance.of("processor");
 	public static final EngineRegistryInstance<MotionType<?>> MOTION = EngineRegistryInstance.of("motion");
@@ -89,6 +94,11 @@ public class EngineRegistry {
 	public static final Val<SelectorType<ApproxCylinderSelector>> CYLINDER = register("cylinder", () -> ApproxCylinderSelector.CODEC);
 	public static final Val<SelectorType<ApproxBallSelector>> BALL = register("ball", () -> ApproxBallSelector.CODEC);
 
+	public static final Val<PredicateType<AndPredicate>> AND = register("and", () -> AndPredicate.CODEC);//TODO docs
+	public static final Val<PredicateType<OrPredicate>> OR = register("or", () -> OrPredicate.CODEC);//TODO docs
+	public static final Val<PredicateType<MovePredicate>> MOVE_PRED = register("move", () -> MovePredicate.CODEC);//TODO docs
+	public static final Val<PredicateType<BlockPredicate>> BLOCK_PRED = register("block", () -> BlockPredicate.CODEC);//TODO docs
+
 	public static final Val<ProcessorType<DamageProcessor>> DAMAGE = register("damage", () -> DamageProcessor.CODEC);
 	public static final Val<ProcessorType<KnockBackProcessor>> KB = register("knockback", () -> KnockBackProcessor.CODEC);
 	public static final Val<ProcessorType<PushProcessor>> PUSH_ENTITY = register("push", () -> PushProcessor.CODEC);
@@ -121,6 +131,11 @@ public class EngineRegistry {
 	private static <T extends Record & Modifier<T>> Val<ModifierType<T>>
 	register(String id, ModifierType<T> codec) {
 		return new Val.Registrate<>(L2Magic.REGISTRATE.simple(id, MODIFIER.key(), () -> codec));
+	}
+
+	private static <T extends Record & ContextPredicate<T>> Val<PredicateType<T>>
+	register(String id, PredicateType<T> codec) {
+		return new Val.Registrate<>(L2Magic.REGISTRATE.simple(id, PREDICATE.key(), () -> codec));
 	}
 
 	private static <T extends Record & EntityProcessor<T>> Val<ProcessorType<T>>

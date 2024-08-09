@@ -32,10 +32,14 @@ public record DelayedIterator(IntVariable step, IntVariable delay, ConfiguredEng
 	public void execute(EngineContext ctx) {
 		int step = step().eval(ctx);
 		int delay = delay().eval(ctx);
-		for (int i = 0; i < step; i++) {
-			int I = i;
-			if (i == 0) ctx.iterateOn(ctx.loc(), index, 0, child);
-			else ctx.schedule(i * delay, () -> ctx.iterateOn(ctx.loc(), index, I, child));
+		recursion(ctx, 0, step, delay);
+	}
+
+	private void recursion(EngineContext ctx, int i, int step, int delay) {
+		ctx.iterateOn(ctx.loc(), index, i, child);
+		int next = i + 1;
+		if (next < step) {
+			ctx.schedule(delay, () -> recursion(ctx, next, step, delay));
 		}
 	}
 

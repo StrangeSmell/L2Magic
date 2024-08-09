@@ -9,7 +9,8 @@ import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 import java.util.Optional;
 import java.util.function.Function;
 
-public interface ConfiguredEngine<T extends Record & ConfiguredEngine<T>> extends Verifiable {
+public interface ConfiguredEngine<T extends Record & ConfiguredEngine<T>>
+		extends ParameterizedVerifiable {
 
 	Codec<ConfiguredEngine<?>> CODEC = EngineRegistry.ENGINE.codec()
 			.dispatch(ConfiguredEngine::type, EngineType::codec);
