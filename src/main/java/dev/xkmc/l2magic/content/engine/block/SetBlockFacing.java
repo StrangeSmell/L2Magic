@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public record SetBlockFacing(
 		BlockState state
-) implements ConfiguredEngine<SetBlockFacing> {
+) implements IBlockProcessor<SetBlockFacing> {
 
 	public static final MapCodec<SetBlockFacing> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			BlockUtils.BLOCK_OR_STATE.fieldOf("state").forGetter(SetBlockFacing::state)

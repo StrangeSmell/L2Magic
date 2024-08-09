@@ -63,6 +63,7 @@ public class EngineRegistry {
 	public static final Val<EngineType<ListLogic>> LIST = register("list", () -> ListLogic.CODEC);
 	public static final Val<EngineType<DelayLogic>> DELAY = register("delay", () -> DelayLogic.CODEC);
 	public static final Val<EngineType<RandomVariableLogic>> RANDOM = register("random", () -> RandomVariableLogic.CODEC);
+	public static final Val<EngineType<VariableLogic>> VAR = register("variable", () -> VariableLogic.CODEC);
 	public static final Val<EngineType<MoveEngine>> MOVE_ENGINE = register("move", () -> MoveEngine.CODEC);
 	public static final Val<EngineType<ProcessorEngine>> PROCESS_ENGINE = register("processor", () -> ProcessorEngine.CODEC);
 

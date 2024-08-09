@@ -14,7 +14,7 @@ public record KnockBlock(
 		DoubleVariable speed,
 		DoubleVariable damagePerBlock,
 		DoubleVariable maxDamage
-) implements ConfiguredEngine<KnockBlock> {
+) implements IBlockProcessor<KnockBlock> {
 
 	public static final MapCodec<KnockBlock> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.codec("speed", KnockBlock::speed),

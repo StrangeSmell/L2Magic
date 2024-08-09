@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Blocks;
 
 public record RemoveBlock(
 		boolean clearFluid
-) implements ConfiguredEngine<RemoveBlock> {
+) implements IBlockProcessor<RemoveBlock> {
 
 	public static final MapCodec<RemoveBlock> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			Codec.BOOL.fieldOf("clearFluid").forGetter(RemoveBlock::clearFluid)
