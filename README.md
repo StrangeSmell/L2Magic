@@ -6,6 +6,9 @@
 
 # Root Types and Parameters
 
+<details>
+<summary>All parameters</summary>
+
 ## Default Parameters
 For all cases:
 - PosX: current cursor position
@@ -26,7 +29,7 @@ Parameters:
 - CastY: Position where this spell is casted
 - CastZ: Position where this spell is casted
 
-## Projectile 
+## Projectile
 Parameters:
 - TickCount: Ticks this projectile has existed
 - ProjectileX: Position of this projectile (when root block is initiated)
@@ -37,9 +40,11 @@ Parameters:
 Parameters:
 - TickCount: Ticks this particle has existed
 
+</details>
+
 # Block Types
 
-## Action Blocks (15)
+## Action Blocks (20)
 
 <details>
 <summary>All logic action block types</summary>
@@ -118,6 +123,8 @@ Execute an action block for multiple times, with delays between them.
 
 Note that first step (`index` = 0) will be executed immediately.
 
+### iterate_delayed TODO
+
 ### iterate_linear
 Execute an action block for multuple times over a sequence of points on a straight line
 - param `step` (int expression): step to iterate
@@ -169,16 +176,42 @@ If you use `index="i"`, then `"i_radius"` and `"i_angle"` will also be added to 
 </details>
 <hr>
 <details>
-<summary>All particle action block types</summary>
+<summary>All particle / sound action block types</summary>
 
-### particle
-### block_particle
-### item_particle
-### dust_particle
-### transition_particle
+### particle TODO
+### block_particle TODO
+### item_particle TODO
+### dust_particle TODO
+### transition_particle TODO
+### sound TODO
 
 </details>
 
+<hr>
+<details>
+<summary>All block action block types</summary>
+
+### set_block TODO
+### set_block_facing TODO
+### remove_block TODO
+### knock_block TODO
+
+</details>
+
+<hr>
+
+## ContextPredicates (6)
+<details>
+<summary>All context predicates</summary>
+
+### and TODO
+### or TODO
+### move TODO
+### block TODO
+### top_surface TODO
+### replaceable TODO
+
+</details>
 <hr>
 
 ## Modifiers (10)
