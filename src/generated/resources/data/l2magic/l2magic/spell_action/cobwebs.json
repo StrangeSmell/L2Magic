@@ -1,0 +1,29 @@
+{
+  "action": {
+    "type": "l2magic:block_in_range",
+    "child": {
+      "type": "l2magic:if",
+      "action": {
+        "type": "l2magic:set_block",
+        "state": "minecraft:cobweb"
+      },
+      "predicate": {
+        "type": "l2magic:and",
+        "list": [
+          {
+            "type": "l2magic:replaceable"
+          },
+          {
+            "type": "l2magic:top_surface"
+          }
+        ]
+      }
+    },
+    "delayPerBlock": "2",
+    "range": "6"
+  },
+  "cast_type": "INSTANT",
+  "icon": "minecraft:cobweb",
+  "order": 612,
+  "trigger_type": "TARGET_POS"
+}

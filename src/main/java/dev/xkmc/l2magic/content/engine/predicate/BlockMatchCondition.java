@@ -16,7 +16,7 @@ public record BlockMatchCondition(
 
 	public static final MapCodec<BlockMatchCondition> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			ExtraCodecs.TAG_OR_ELEMENT_ID.fieldOf("block").forGetter(BlockMatchCondition::block)
-	).apply(i, BlockMatchCondition::new);
+	).apply(i, BlockMatchCondition::new));
 
 	@Override
 	public PredicateType<BlockMatchCondition> type() {

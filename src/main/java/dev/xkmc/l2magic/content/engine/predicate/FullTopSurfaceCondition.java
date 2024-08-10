@@ -23,7 +23,7 @@ public record FullTopSurfaceCondition(
 
 	@Override
 	public boolean test(EngineContext ctx) {
-		return Block.canSupportCenter(ctx.user().level(), BlockPos.containing(ctx.loc().pos()), Direction.UP);
+		return Block.canSupportCenter(ctx.user().level(), BlockPos.containing(ctx.loc().pos()).below(), Direction.UP);
 	}
 
 }

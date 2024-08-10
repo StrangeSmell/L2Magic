@@ -47,7 +47,7 @@ public record BlockInRangeIterator(
 				for (int z = -step; z <= step; z++) {
 					var npos = pos.offset(x, y, z).getCenter();
 					double dist = npos.distanceTo(p);
-					if (dist > rate) continue;
+					if (dist > rad) continue;
 					int delay = (int) Math.round(rate * dist);
 					var dir = dist < 0.5 ? ctx.loc().dir() : npos.subtract(p).normalize();
 					double dx = npos.x - p.x;
