@@ -74,6 +74,7 @@ public class EngineRegistry {
 	public static final Val<EngineType<RingIterator>> ITERATE_ARC = register("iterate_arc", () -> RingIterator.CODEC);
 	public static final Val<EngineType<RingRandomIterator>> RANDOM_FAN = register("random_pos_fan", () -> RingRandomIterator.CODEC);
 	public static final Val<EngineType<SphereRandomIterator>> RANDOM_SPHERE = register("random_pos_sphere", () -> SphereRandomIterator.CODEC);//TODO doc
+	public static final Val<EngineType<BlockInRangeIterator>> BLOCK_IN_RANGE = register("block_in_range", () -> BlockInRangeIterator.CODEC);//TODO doc
 
 	public static final Val<EngineType<SimpleParticleInstance>> SIMPLE_PARTICLE = register("particle", () -> SimpleParticleInstance.CODEC);//TODO doc
 	public static final Val<EngineType<BlockParticleInstance>> BLOCK_PARTICLE = register("block_particle", () -> BlockParticleInstance.CODEC);//TODO doc
