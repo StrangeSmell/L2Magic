@@ -5,10 +5,15 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2core.util.DataGenOnly;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
+import dev.xkmc.l2magic.content.engine.logic.DelayLogic;
 import dev.xkmc.l2magic.content.engine.logic.MoveEngine;
+import dev.xkmc.l2magic.content.engine.logic.VariableLogic;
+import dev.xkmc.l2magic.content.engine.variable.DoubleVariable;
+import dev.xkmc.l2magic.content.engine.variable.IntVariable;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -31,7 +36,24 @@ public interface ConfiguredEngine<T extends Record & ConfiguredEngine<T>>
 	EngineType<T> type();
 
 	@DataGenOnly
+	@SuppressWarnings("deprecation")
 	default ConfiguredEngine<?> move(Modifier<?>... mod) {
 		return new MoveEngine(List.of(mod), this);
+	}
+
+	@DataGenOnly
+	@SuppressWarnings("deprecation")
+	default ConfiguredEngine<?> delay(IntVariable delay) {
+		return new DelayLogic(delay, this);
+	}
+
+	@DataGenOnly
+	@SuppressWarnings("deprecation")
+	default ConfiguredEngine<?> withVariables(Map<String, DoubleVariable> vars) {
+		ConfiguredEngine<?> self = this;
+		for (var ent : vars.entrySet()) {
+			self = new VariableLogic(ent.getKey(), ent.getValue(), self);
+		}
+		return self;
 	}
 }

@@ -22,6 +22,10 @@ public record VariableLogic(String name, DoubleVariable var, ConfiguredEngine<?>
 			ConfiguredEngine.codec("child", VariableLogic::child)
 	).apply(i, VariableLogic::new));
 
+	@Deprecated
+	public VariableLogic {
+	}
+
 	@Override
 	public EngineType<VariableLogic> type() {
 		return EngineRegistry.VAR.get();
