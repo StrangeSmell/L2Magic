@@ -26,7 +26,7 @@ public record AndPredicate(
 	@Override
 	public boolean test(EngineContext ctx) {
 		for (var e : list) {
-			if (!e.test(ctx)) {
+			if (!ctx.test(e)) {
 				return false;
 			}
 		}

@@ -1,13 +1,11 @@
 package dev.xkmc.l2magic.content.engine.logic;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
 import dev.xkmc.l2magic.content.engine.core.EngineType;
 import dev.xkmc.l2magic.content.engine.core.IPredicate;
-import dev.xkmc.l2magic.content.engine.variable.BooleanVariable;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 
 import javax.annotation.Nullable;
@@ -31,7 +29,7 @@ public record PredicateLogic(
 
 	@Override
 	public void execute(EngineContext ctx) {
-		if (predicate.test(ctx)) {
+		if (ctx.test(predicate)) {
 			if (action != null) ctx.execute(action);
 		} else if (fallback != null) ctx.execute(fallback);
 	}

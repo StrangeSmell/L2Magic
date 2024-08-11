@@ -105,10 +105,11 @@ public class EngineRegistry {
 
 	public static final Val<PredicateType<AndPredicate>> AND = register("and", () -> AndPredicate.CODEC);//TODO docs
 	public static final Val<PredicateType<OrPredicate>> OR = register("or", () -> OrPredicate.CODEC);//TODO docs
+	public static final Val<PredicateType<NotPredicate>> NOT = register("not", () -> NotPredicate.CODEC);//TODO docs
 	public static final Val<PredicateType<MovePredicate>> MOVE_PRED = register("move", () -> MovePredicate.CODEC);//TODO docs
-	public static final Val<PredicateType<BlockMatchCondition>> BLOCK_PRED = register("block", () -> BlockMatchCondition.CODEC);//TODO docs
-	public static final Val<PredicateType<FullTopSurfaceCondition>> TOP_SURFACE = register("top_surface", () -> FullTopSurfaceCondition.CODEC);//TODO docs
-	public static final Val<PredicateType<ReplaceableCondition>> REPLACEABLE = register("replaceable", () -> ReplaceableCondition.CODEC);//TODO docs
+	public static final Val<PredicateType<BlockMatchCondition>> BLOCK_MATCH = register("block", () -> BlockMatchCondition.CODEC);//TODO docs
+	public static final Val<PredicateType<SurfaceBelowCondition>> SURFACE_BELOW = register("surface_below", () -> SurfaceBelowCondition.CODEC);//TODO docs
+	public static final Val<PredicateType<BlockTestCondition>> BLOCK_TEST = register("block_test", () -> BlockTestCondition.CODEC);//TODO docs
 
 	public static final Val<ProcessorType<DamageProcessor>> DAMAGE = register("damage", () -> DamageProcessor.CODEC);
 	public static final Val<ProcessorType<KnockBackProcessor>> KB = register("knockback", () -> KnockBackProcessor.CODEC);

@@ -30,7 +30,7 @@ public record MovePredicate(List<Modifier<?>> modifiers, IPredicate child)
 		for (var e : modifiers) {
 			ctx = ctx.with(e.modify(ctx));
 		}
-		return child().test(ctx);
+		return ctx.test(child());
 	}
 
 }

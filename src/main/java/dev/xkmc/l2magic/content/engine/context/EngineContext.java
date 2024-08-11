@@ -54,6 +54,10 @@ public record EngineContext(UserContext user, LocationContext loc, RandomSource 
 		child.execute(new EngineContext(user, loc, nextRand(), parameters));
 	}
 
+	public boolean test(IPredicate test) {
+		return test.test(new EngineContext(user, loc, nextRand(), parameters));
+	}
+
 	public double eval(Expression exp) {
 		exp.setVariables(parameters);
 		if (user.scheduler() != null)

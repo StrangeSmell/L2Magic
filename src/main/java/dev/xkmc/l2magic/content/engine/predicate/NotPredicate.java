@@ -8,29 +8,22 @@ import dev.xkmc.l2magic.content.engine.core.IPredicate;
 import dev.xkmc.l2magic.content.engine.core.PredicateType;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 
-import java.util.List;
+public record NotPredicate(
+		IPredicate child
+) implements ContextPredicate<NotPredicate> {
 
-public record OrPredicate(
-		List<IPredicate> list
-) implements ContextPredicate<OrPredicate> {
-
-	public static final MapCodec<OrPredicate> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-			IPredicate.CODEC.listOf().fieldOf("list").forGetter(OrPredicate::list)
-	).apply(i, OrPredicate::new));
+	public static final MapCodec<NotPredicate> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
+			IPredicate.CODEC.fieldOf("child").forGetter(NotPredicate::child)
+	).apply(i, NotPredicate::new));
 
 	@Override
-	public PredicateType<OrPredicate> type() {
-		return EngineRegistry.OR.get();
+	public PredicateType<NotPredicate> type() {
+		return EngineRegistry.NOT.get();
 	}
 
 	@Override
 	public boolean test(EngineContext ctx) {
-		for (var e : list) {
-			if (ctx.test(e)) {
-				return true;
-			}
-		}
-		return false;
+		return !ctx.test(child);
 	}
 
 }
