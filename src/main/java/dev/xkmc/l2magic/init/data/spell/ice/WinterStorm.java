@@ -5,7 +5,10 @@ import dev.xkmc.l2magic.content.engine.context.DataGenContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
 import dev.xkmc.l2magic.content.engine.iterator.DelayedIterator;
 import dev.xkmc.l2magic.content.engine.iterator.RingRandomIterator;
-import dev.xkmc.l2magic.content.engine.logic.*;
+import dev.xkmc.l2magic.content.engine.logic.ListLogic;
+import dev.xkmc.l2magic.content.engine.logic.PredicateLogic;
+import dev.xkmc.l2magic.content.engine.logic.ProcessorEngine;
+import dev.xkmc.l2magic.content.engine.logic.RandomVariableLogic;
 import dev.xkmc.l2magic.content.engine.modifier.*;
 import dev.xkmc.l2magic.content.engine.particle.SimpleParticleInstance;
 import dev.xkmc.l2magic.content.engine.processor.DamageProcessor;
@@ -99,13 +102,11 @@ public class WinterStorm extends SpellDataGenEntry {
 								DoubleVariable.of("-180"),
 								DoubleVariable.of("180"),
 								IntVariable.of("5"),
-								new MoveEngine(List.of(
-										RotationModifier.of("75"),
-										OffsetModifier.of("0", "rand(" + (y - size) + "," + (y + size) + ")", "0")),
-										new SimpleParticleInstance(
-												ParticleTypes.SNOWFLAKE,
-												DoubleVariable.of("0.5")
-										)
+								new SimpleParticleInstance(
+										ParticleTypes.SNOWFLAKE,
+										DoubleVariable.of("0.5")
+								).move(RotationModifier.of("75"),
+										OffsetModifier.of("0", "rand(" + (y - size) + "," + (y + size) + ")", "0")
 								), null
 						), null
 				)
@@ -149,17 +150,13 @@ public class WinterStorm extends SpellDataGenEntry {
 						IntVariable.of("10"),
 						IntVariable.of("1"),
 						new RandomVariableLogic("r", 1,
-								new MoveEngine(List.of(
-										new Dir2NormalModifier()
-								), new RingRandomIterator(
+								new RingRandomIterator(
 										DoubleVariable.of(ir + ""),
 										DoubleVariable.of(ir + ""),
 										DoubleVariable.of("-180"),
 										DoubleVariable.of("180"),
 										IntVariable.of("3"),
-										new MoveEngine(List.of(
-												NormalOffsetModifier.of("rand(" + (-vsp) + "," + vsp + ")")
-										), new CustomParticleInstance(
+										new CustomParticleInstance(
 												DoubleVariable.of("0"),
 												DoubleVariable.of("0.15"),
 												IntVariable.of("" + life),
@@ -175,8 +172,8 @@ public class WinterStorm extends SpellDataGenEntry {
 														RenderTypePreset.NORMAL,
 														ParticleTypes.SNOWFLAKE
 												)
-										)), null
-								))
+										).move(NormalOffsetModifier.of("rand(" + (-vsp) + "," + vsp + ")")), null
+								).move(new Dir2NormalModifier())
 						), null
 				)
 		));

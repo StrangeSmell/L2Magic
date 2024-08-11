@@ -20,6 +20,7 @@
       }
     },
     "delayPerBlock": "2",
+    "plane": false,
     "range": "6"
   },
   "cast_type": "INSTANT",

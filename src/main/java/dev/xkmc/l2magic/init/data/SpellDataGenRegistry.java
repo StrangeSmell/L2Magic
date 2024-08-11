@@ -1,7 +1,7 @@
 package dev.xkmc.l2magic.init.data;
 
 import dev.xkmc.l2magic.init.data.spell.ArrowSpells;
-import dev.xkmc.l2magic.init.data.spell.CobWebSpells;
+import dev.xkmc.l2magic.init.data.spell.BlockSpells;
 import dev.xkmc.l2magic.init.data.spell.EchoSpells;
 import dev.xkmc.l2magic.init.data.spell.MasterSpark;
 import dev.xkmc.l2magic.init.data.spell.fire.FlameCharge;
@@ -19,7 +19,7 @@ public class SpellDataGenRegistry {
 			new WinterStorm(),
 			new FlameSpells(),
 			new ArrowSpells(),
-			new CobWebSpells(),//id: 600
+			new BlockSpells(),//id: 600
 			new MagnetCore(),  // id:3000
 			new MasterSpark(),
 			new IcyFlash(),  // id:3100

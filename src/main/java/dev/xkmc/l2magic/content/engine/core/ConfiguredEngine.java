@@ -3,9 +3,12 @@ package dev.xkmc.l2magic.content.engine.core;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.xkmc.l2core.util.DataGenOnly;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
+import dev.xkmc.l2magic.content.engine.logic.MoveEngine;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -27,4 +30,8 @@ public interface ConfiguredEngine<T extends Record & ConfiguredEngine<T>>
 
 	EngineType<T> type();
 
+	@DataGenOnly
+	default ConfiguredEngine<?> move(Modifier<?>... mod) {
+		return new MoveEngine(List.of(mod), this);
+	}
 }

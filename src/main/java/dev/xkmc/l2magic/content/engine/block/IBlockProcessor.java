@@ -6,6 +6,7 @@ import dev.xkmc.l2magic.content.engine.iterator.BlockInRangeIterator;
 import dev.xkmc.l2magic.content.engine.logic.PredicateLogic;
 import dev.xkmc.l2magic.content.engine.predicate.AndPredicate;
 import dev.xkmc.l2magic.content.engine.variable.DoubleVariable;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -14,9 +15,14 @@ public interface IBlockProcessor<T extends Record & ConfiguredEngine<T> & IBlock
 	default ConfiguredEngine<?> circular(
 			DoubleVariable radius,
 			DoubleVariable delayPerBlock,
+			boolean plane,
+			@Nullable String variable,
 			IPredicate... predicates
 	) {
-		return new BlockInRangeIterator(radius, delayPerBlock, new PredicateLogic(new AndPredicate(List.of(predicates)), this, null), null);
+		return new BlockInRangeIterator(radius, delayPerBlock, plane,
+				new PredicateLogic(new AndPredicate(List.of(predicates)),
+						this, null),
+				variable);
 	}
 
 }
