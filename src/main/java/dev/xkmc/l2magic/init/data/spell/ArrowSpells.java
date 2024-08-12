@@ -36,7 +36,6 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class ArrowSpells extends SpellDataGenEntry {
 
@@ -216,17 +215,13 @@ public class ArrowSpells extends SpellDataGenEntry {
 	}
 
 	private static ProjectileConfig circularProjectile(DataGenContext ctx) {
-		return new ProjectileConfig(
-				Set.of("angle"),
-				SelectionType.ENEMY_NO_FAMILY,
-				new MovePosMotion(List.of(
-						new SetPosModifier(
-								DoubleVariable.of("CasterX+(0.5+TickCount*0.1)*cosDegree(angle+TickCount*14)"),
-								DoubleVariable.of("CasterY+1"),
-								DoubleVariable.of("CasterZ+(0.5+TickCount*0.1)*sinDegree(angle+TickCount*14)")
-						)
-				)),
-				new ListLogic(List.of(
+		return ProjectileConfig.builder(SelectionType.ENEMY_NO_FAMILY, "angle")
+				.motion(new MovePosMotion(List.of(new SetPosModifier(
+						DoubleVariable.of("CasterX+(0.5+TickCount*0.1)*cosDegree(angle+TickCount*14)"),
+						DoubleVariable.of("CasterY+1"),
+						DoubleVariable.of("CasterZ+(0.5+TickCount*0.1)*sinDegree(angle+TickCount*14)")
+				))))
+				.tick(new ListLogic(List.of(
 						new ProcessorEngine(SelectionType.ENEMY,
 								new BoxSelector(
 										DoubleVariable.of("1"),
@@ -248,9 +243,7 @@ public class ArrowSpells extends SpellDataGenEntry {
 								ParticleTypes.END_ROD,
 								DoubleVariable.ZERO
 						)
-				)),
-				List.of(), null
-		);
+				))).build();
 	}
 
 	private static ConfiguredEngine<?> circularEntity(DataGenContext ctx) {

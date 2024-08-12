@@ -11,11 +11,11 @@ import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.l2serial.util.Wrappers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -52,6 +52,11 @@ public class LMProjectile extends BaseProjectile {
 	public void tick() {
 		super.tick();
 		data.tick(this);
+	}
+
+	@Override
+	public AABB getBoundingBoxForEntityHit() {
+		return getBoundingBox().inflate(data.size(this));
 	}
 
 	@Override
@@ -125,4 +130,12 @@ public class LMProjectile extends BaseProjectile {
 		return data.getRenderer(this);
 	}
 
+	public boolean shouldRenderAtSqrDistance(double distance) {
+		return distance < 128 * 128;
+	}
+
+	@Override
+	public AABB getBoundingBoxForCulling() {
+		return getBoundingBox().inflate(0.5);
+	}
 }

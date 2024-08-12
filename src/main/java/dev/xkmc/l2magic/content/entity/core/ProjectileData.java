@@ -29,7 +29,7 @@ import java.util.Set;
 public class ProjectileData {
 
 	private static final int SALT_TICK = 0x342ab3c1, SALT_MOVE = 0xa6258bd1,
-			SALT_HIT = 0xb286c235, SALT_RENDER = 0x1134ba51;
+			SALT_HIT = 0xb286c235, SALT_RENDER = 0x1134ba51, SALT_SIZE = 0x82f34eab;
 
 	public static final Set<String> DEFAULT_PARAMS = Set.of("TickCount",
 			"ProjectileX", "ProjectileY", "ProjectileZ");
@@ -135,6 +135,15 @@ public class ProjectileData {
 		EngineContext ctx = getContext(self, SALT_RENDER, false);
 		if (ctx == null) return null;
 		return renderer.resolve(ctx);
+	}
+
+	public double size(LMProjectile e) {
+		if (getConfig(e.level()) == null) return 0;
+		var size = config.size();
+		if (size == null) return 0;
+		EngineContext ctx = getContext(e, SALT_SIZE, false);
+		if (ctx == null) return 0;
+		return size.eval(ctx);
 	}
 
 }
