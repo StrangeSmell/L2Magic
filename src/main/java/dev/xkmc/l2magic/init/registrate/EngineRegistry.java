@@ -25,6 +25,7 @@ import dev.xkmc.l2magic.content.entity.engine.TridentShoot;
 import dev.xkmc.l2magic.content.entity.motion.MoveDeltaMotion;
 import dev.xkmc.l2magic.content.entity.motion.MovePosMotion;
 import dev.xkmc.l2magic.content.entity.motion.SimpleMotion;
+import dev.xkmc.l2magic.content.entity.renderer.OrientedRenderData;
 import dev.xkmc.l2magic.content.entity.renderer.ProjectileRenderData;
 import dev.xkmc.l2magic.content.entity.renderer.ProjectileRenderType;
 import dev.xkmc.l2magic.content.particle.engine.*;
@@ -129,6 +130,8 @@ public class EngineRegistry {
 	public static final Val<ParticleRenderType<ItemParticleData>> ITEM_RENDER = register("item", () -> ItemParticleData.CODEC);//TODO doc
 	public static final Val<ParticleRenderType<StaticTextureParticleData>> STATIC_RENDER = register("static", () -> StaticTextureParticleData.CODEC);//TODO doc
 	public static final Val<ParticleRenderType<OrientedParticleData>> ORIENTED_RENDER = register("oriented", () -> OrientedParticleData.CODEC);//TODO doc
+
+	public static final Val<ProjectileRenderType<OrientedRenderData>> PR_SIMPLE = register("simple", () -> OrientedRenderData.CODEC);//TODO doc
 
 	private static <T extends Record & ConfiguredEngine<T>> Val<EngineType<T>>
 	register(String id, EngineType<T> codec) {

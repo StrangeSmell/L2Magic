@@ -25,6 +25,7 @@ import dev.xkmc.l2magic.content.engine.variable.IntVariable;
 import dev.xkmc.l2magic.content.entity.core.ProjectileConfig;
 import dev.xkmc.l2magic.content.entity.engine.CustomProjectileShoot;
 import dev.xkmc.l2magic.content.entity.motion.MovePosMotion;
+import dev.xkmc.l2magic.init.data.DataGenCachedHolder;
 import dev.xkmc.l2magic.init.data.SpellDataGenEntry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -44,7 +45,7 @@ public class ArrowSpells extends SpellDataGenEntry {
 	public static final ResourceKey<SpellAction> ARROW_RING = spell("magic_arrow_ring");
 	public static final ResourceKey<SpellAction> CIRCULAR = spell("circular");
 	public static final ResourceKey<SpellAction> CIRCULAR_ENTITY = spell("circular_entity");
-	public static final ProjectileHolder CIRCULAR_PROJECTILE = projectile("circular_projectile");
+	public static final DataGenCachedHolder<ProjectileConfig> CIRCULAR_PROJECTILE = projectile("circular_projectile");
 
 	@Override
 	public void genLang(RegistrateLangProvider pvd) {
@@ -248,8 +249,7 @@ public class ArrowSpells extends SpellDataGenEntry {
 								DoubleVariable.ZERO
 						)
 				)),
-				null,
-				null
+				List.of(), null
 		);
 	}
 

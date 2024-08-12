@@ -4,7 +4,6 @@ import dev.xkmc.fastprojectileapi.entity.ProjectileMovement;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.context.UserContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
-import dev.xkmc.l2magic.content.engine.core.EntityProcessor;
 import dev.xkmc.l2magic.content.engine.helper.Scheduler;
 import dev.xkmc.l2magic.content.entity.renderer.ProjectileRenderer;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
@@ -97,12 +96,14 @@ public class ProjectileData {
 
 	public void hurtTarget(LMProjectile self, EntityHitResult result) {
 		if (getConfig(self.level()) == null) return;
-		EntityProcessor<?> hit = config.hit();
-		if (hit == null) return;
+		var hit = config.hit();
+		if (hit.isEmpty()) return;
 		if (!(result.getEntity() instanceof LivingEntity le)) return;
 		EngineContext ctx = getContext(self, SALT_HIT, false);
 		if (ctx == null) return;
-		hit.process(List.of(le), ctx);
+		for (var e : hit) {
+			e.process(List.of(le), ctx);
+		}
 	}
 
 	public void tick(LMProjectile self) {

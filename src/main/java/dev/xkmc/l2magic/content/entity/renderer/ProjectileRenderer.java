@@ -9,6 +9,6 @@ public interface ProjectileRenderer {
 
 	ResourceLocation getTexture();
 
-	void render(LMProjectile e, float pTick, PoseStack pose, MultiBufferSource buffer, int light);
+	void render(LMProjectile e, LMProjectileRenderer<?> renderer, float pTick, PoseStack pose, MultiBufferSource buffer, int light);
 
 }

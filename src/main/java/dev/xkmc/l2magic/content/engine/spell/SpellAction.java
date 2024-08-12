@@ -7,8 +7,12 @@ import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
 import dev.xkmc.l2magic.content.engine.helper.EngineHelper;
 import dev.xkmc.l2magic.content.engine.helper.Scheduler;
 import dev.xkmc.l2magic.init.L2Magic;
+import dev.xkmc.l2magic.init.data.DataGenCachedHolder;
+import dev.xkmc.l2magic.init.registrate.EngineRegistry;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -29,6 +33,9 @@ public record SpellAction(ConfiguredEngine<?> action, Item icon, int order,
 			CAST_CODEC.fieldOf("cast_type").forGetter(e -> e.castType),
 			TRIGGER_CODEC.fieldOf("trigger_type").forGetter(e -> e.triggerType)
 	).apply(i, SpellAction::new));
+
+	public static final Codec<Holder<SpellAction>> HOLDER =
+			RegistryFileCodec.create(EngineRegistry.SPELL, CODEC, false);
 
 	public static String lang(ResourceLocation rl) {
 		return "spell_action." + rl.getNamespace() + "." + rl.getPath();
@@ -65,6 +72,11 @@ public record SpellAction(ConfiguredEngine<?> action, Item icon, int order,
 	public void verifyOnBuild(BootstrapContext<SpellAction> ctx, ResourceKey<SpellAction> id) {
 		verify(id.location());
 		ctx.register(id, this);
+	}
+
+	public void verifyOnBuild(BootstrapContext<SpellAction> ctx, DataGenCachedHolder<SpellAction> holder) {
+		verify(holder.key.location());
+		holder.gen(ctx, this);
 	}
 
 }

@@ -5,12 +5,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2core.util.DataGenOnly;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
+import dev.xkmc.l2magic.content.engine.iterator.BlockInRangeIterator;
 import dev.xkmc.l2magic.content.engine.logic.DelayLogic;
 import dev.xkmc.l2magic.content.engine.logic.MoveEngine;
+import dev.xkmc.l2magic.content.engine.logic.PredicateLogic;
 import dev.xkmc.l2magic.content.engine.logic.VariableLogic;
+import dev.xkmc.l2magic.content.engine.predicate.AndPredicate;
 import dev.xkmc.l2magic.content.engine.variable.DoubleVariable;
 import dev.xkmc.l2magic.content.engine.variable.IntVariable;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -56,4 +60,18 @@ public interface ConfiguredEngine<T extends Record & ConfiguredEngine<T>>
 		}
 		return self;
 	}
+
+	default ConfiguredEngine<?> circular(
+			DoubleVariable radius,
+			DoubleVariable delayPerBlock,
+			boolean plane,
+			@Nullable String variable,
+			IPredicate... predicates
+	) {
+		return new BlockInRangeIterator(radius, delayPerBlock, plane,
+				new PredicateLogic(new AndPredicate(List.of(predicates)),
+						this, null),
+				variable);
+	}
+
 }
