@@ -11,6 +11,7 @@ import dev.xkmc.l2serial.serialization.marker.SerialField;
 import dev.xkmc.l2serial.util.Wrappers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -45,7 +46,9 @@ public class LMProjectile extends BaseProjectile {
 		this.data = data;
 		setPos(pos);
 		setDeltaMovement(initVec);
-		updateRotation(ProjectileMovement.of(initVec).rot());
+		var rot = ProjectileMovement.of(initVec).rot();
+		setXRot((float) (rot.x * Mth.RAD_TO_DEG));
+		setYRot((float) (rot.y * Mth.RAD_TO_DEG));
 	}
 
 	@Override
