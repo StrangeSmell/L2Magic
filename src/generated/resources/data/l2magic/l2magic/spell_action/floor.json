@@ -1,0 +1,39 @@
+{
+  "action": {
+    "type": "l2magic:move",
+    "child": {
+      "type": "l2magic:block_in_range",
+      "child": {
+        "type": "l2magic:if",
+        "action": {
+          "type": "l2magic:set_block",
+          "state": "minecraft:stone"
+        },
+        "predicate": {
+          "type": "l2magic:and",
+          "list": [
+            {
+              "type": "l2magic:block_test",
+              "test": "REPLACEABLE"
+            }
+          ]
+        }
+      },
+      "delayPerBlock": "0",
+      "plane": true,
+      "range": "3"
+    },
+    "modifiers": [
+      {
+        "type": "l2magic:offset",
+        "x": "0",
+        "y": "-1",
+        "z": "0"
+      }
+    ]
+  },
+  "cast_type": "INSTANT",
+  "icon": "minecraft:stone",
+  "order": 622,
+  "trigger_type": "SELF_POS"
+}

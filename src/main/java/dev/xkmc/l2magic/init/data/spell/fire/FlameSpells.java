@@ -7,7 +7,10 @@ import dev.xkmc.l2magic.content.engine.iterator.DelayedIterator;
 import dev.xkmc.l2magic.content.engine.iterator.LinearIterator;
 import dev.xkmc.l2magic.content.engine.iterator.LoopIterator;
 import dev.xkmc.l2magic.content.engine.iterator.RingRandomIterator;
-import dev.xkmc.l2magic.content.engine.logic.*;
+import dev.xkmc.l2magic.content.engine.logic.ListLogic;
+import dev.xkmc.l2magic.content.engine.logic.PredicateLogic;
+import dev.xkmc.l2magic.content.engine.logic.ProcessorEngine;
+import dev.xkmc.l2magic.content.engine.logic.RandomVariableLogic;
 import dev.xkmc.l2magic.content.engine.modifier.ForwardOffsetModifier;
 import dev.xkmc.l2magic.content.engine.modifier.RandomOffsetModifier;
 import dev.xkmc.l2magic.content.engine.modifier.RotationModifier;
@@ -66,13 +69,12 @@ public class FlameSpells extends SpellDataGenEntry {
 
 	private static ConfiguredEngine<?> flameBurst(DataGenContext ctx) {
 		return new ListLogic(List.of(
-				new MoveEngine(List.of(
+				star(4, 0.3).move(
 						new SetDirectionModifier(
 								DoubleVariable.of("1"),
 								DoubleVariable.ZERO,
 								DoubleVariable.ZERO),
-						RotationModifier.of("rand(0,360)")),
-						star(4, 0.3)
+						RotationModifier.of("rand(0,360)")
 				),
 				new DelayedIterator(
 						IntVariable.of("40"),
@@ -107,23 +109,21 @@ public class FlameSpells extends SpellDataGenEntry {
 										IntVariable.of("10"),
 										new RandomVariableLogic(
 												"r", 4,
-												new MoveEngine(List.of(
-														new SetDirectionModifier(
-																DoubleVariable.of("(r0-0.5)*0.2"),
-																DoubleVariable.of("1"),
-																DoubleVariable.of("(r1-0.5)*0.2")
-														)),
-														new PredicateLogic(
-																BooleanVariable.of("r2<0.25"),
-																new SimpleParticleInstance(
-																		ParticleTypes.SOUL,
-																		DoubleVariable.of("0.5+r3*0.2")
-																),
-																new SimpleParticleInstance(
-																		ParticleTypes.FLAME,
-																		DoubleVariable.of("0.5+r3*0.2")
-																)
-														))
+												new PredicateLogic(
+														BooleanVariable.of("r2<0.25"),
+														new SimpleParticleInstance(
+																ParticleTypes.SOUL,
+																DoubleVariable.of("0.5+r3*0.2")
+														),
+														new SimpleParticleInstance(
+																ParticleTypes.FLAME,
+																DoubleVariable.of("0.5+r3*0.2")
+														)
+												).move(new SetDirectionModifier(
+														DoubleVariable.of("(r0-0.5)*0.2"),
+														DoubleVariable.of("1"),
+														DoubleVariable.of("(r1-0.5)*0.2")
+												))
 										), "i"
 								))), null
 				)
@@ -138,13 +138,11 @@ public class FlameSpells extends SpellDataGenEntry {
 						DoubleVariable.of("-180"),
 						DoubleVariable.of("180"),
 						IntVariable.of("5*min(TickUsing/10,3)"),
-						new MoveEngine(List.of(
-								RotationModifier.of("135", "rand(-15*min(floor(TickUsing/10),3),0)"),
-								ForwardOffsetModifier.of("-4")),
-								new SimpleParticleInstance(
-										ParticleTypes.SMALL_FLAME,
-										DoubleVariable.of("0.3")
-								)
+						new SimpleParticleInstance(
+								ParticleTypes.SMALL_FLAME,
+								DoubleVariable.of("0.3")
+						).move(RotationModifier.of("135", "rand(-15*min(floor(TickUsing/10),3),0)"),
+								ForwardOffsetModifier.of("-4")
 						), null
 				),
 				earthquakeStart(ctx)
@@ -158,53 +156,44 @@ public class FlameSpells extends SpellDataGenEntry {
 				new RandomVariableLogic("r", 2,
 						new LoopIterator(
 								IntVariable.of("3+i*2"),
-								new DelayLogic(
-										IntVariable.of("abs(i+1-j)*1"),
-										new MoveEngine(List.of(
-												RotationModifier.of("180/(3+i*2)*(j+(r0+r1)/2)-90"),
-												ForwardOffsetModifier.of("6*i+4"),
-												new RandomOffsetModifier(
-														RandomOffsetModifier.Type.SPHERE,
-														DoubleVariable.of("0.1"),
+								new ListLogic(List.of(
+										star(2, 0.2).move(RotationModifier.of("rand(0,360)")),
+										new ProcessorEngine(SelectionType.ENEMY,
+												new ApproxCylinderSelector(
+														DoubleVariable.of("4"),
+														DoubleVariable.of("2")
+												), List.of(
+												new DamageProcessor(ctx.damage(DamageTypes.EXPLOSION),
+														DoubleVariable.of("10"), true, true),
+												KnockBackProcessor.of("2")
+										)),
+										new RingRandomIterator(
+												DoubleVariable.of("0"),
+												DoubleVariable.of("2"),
+												DoubleVariable.of("-180"),
+												DoubleVariable.of("180"),
+												IntVariable.of("100"),
+												new BlockParticleInstance(
+														Blocks.STONE,
+														DoubleVariable.of("0.5+rand(0,0.4)"),
+														DoubleVariable.of("0.5"),
+														IntVariable.of("rand(20,40)"),
+														true
+												).move(new SetDirectionModifier(
 														DoubleVariable.ZERO,
-														DoubleVariable.of("0.1")
-												)),
-												new ListLogic(List.of(
-														new MoveEngine(
-																List.of(RotationModifier.of("rand(0,360)")),
-																star(2, 0.2)),
-														new ProcessorEngine(SelectionType.ENEMY,
-																new ApproxCylinderSelector(
-																		DoubleVariable.of("4"),
-																		DoubleVariable.of("2")
-																), List.of(
-																new DamageProcessor(ctx.damage(DamageTypes.EXPLOSION),
-																		DoubleVariable.of("10"), true, true),
-																KnockBackProcessor.of("2")
-														)),
-														new RingRandomIterator(
-																DoubleVariable.of("0"),
-																DoubleVariable.of("2"),
-																DoubleVariable.of("-180"),
-																DoubleVariable.of("180"),
-																IntVariable.of("100"),
-																new MoveEngine(List.of(
-																		new SetDirectionModifier(
-																				DoubleVariable.ZERO,
-																				DoubleVariable.of("1"),
-																				DoubleVariable.ZERO)),
-																		new BlockParticleInstance(
-																				Blocks.STONE,
-																				DoubleVariable.of("0.5+rand(0,0.4)"),
-																				DoubleVariable.of("0.5"),
-																				IntVariable.of("rand(20,40)"),
-																				true
-																		)
-																), null
-														)
-												))
+														DoubleVariable.of("1"),
+														DoubleVariable.ZERO)
+												), null
 										)
-								), "j"
+								)).move(RotationModifier.of("180/(3+i*2)*(j+(r0+r1)/2)-90"),
+										ForwardOffsetModifier.of("6*i+4"),
+										new RandomOffsetModifier(
+												RandomOffsetModifier.Type.SPHERE,
+												DoubleVariable.of("0.1"),
+												DoubleVariable.ZERO,
+												DoubleVariable.of("0.1")
+										)
+								).delay(IntVariable.of("abs(i+1-j)*1")), "j"
 						)
 				), "i"
 		);
@@ -216,38 +205,33 @@ public class FlameSpells extends SpellDataGenEntry {
 		return new ListLogic(List.of(
 				new LoopIterator(
 						IntVariable.of("5"),
-						new MoveEngine(List.of(
+						new LinearIterator(
+								DoubleVariable.of(radius * 1.9 / linestep + ""),
+								Vec3.ZERO,
+								DoubleVariable.ZERO,
+								IntVariable.of(linestep + 1 + ""),
+								true,
+								new SimpleParticleInstance(
+										ParticleTypes.FLAME,
+										DoubleVariable.ZERO
+								),
+								null
+						).move(
 								RotationModifier.of("72*ri"),
 								ForwardOffsetModifier.of(radius + ""),
-								RotationModifier.of("162")),
-								new LinearIterator(
-										DoubleVariable.of(radius * 1.9 / linestep + ""),
-										Vec3.ZERO,
-										DoubleVariable.ZERO,
-										IntVariable.of(linestep + 1 + ""),
-										true,
-										new SimpleParticleInstance(
-												ParticleTypes.FLAME,
-												DoubleVariable.ZERO
-										),
-										null
-								)
+								RotationModifier.of("162")
 						), "ri"
 				),
 				new LoopIterator(
 						IntVariable.of(circlestep + ""),
-						new MoveEngine(List.of(
-								RotationModifier.of(360d / circlestep + "*ri"),
+						new SimpleParticleInstance(
+								ParticleTypes.FLAME,
+								DoubleVariable.ZERO
+						).move(RotationModifier.of(360d / circlestep + "*ri"),
 								ForwardOffsetModifier.of(radius + "")
-						),
-								new SimpleParticleInstance(
-										ParticleTypes.FLAME,
-										DoubleVariable.ZERO
-								)
 						), "ri"
 				)
-		)
-		);
+		));
 	}
 
 }

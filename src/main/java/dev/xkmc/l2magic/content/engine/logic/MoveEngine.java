@@ -19,6 +19,9 @@ public record MoveEngine(List<Modifier<?>> modifiers, ConfiguredEngine<?> child)
 			ConfiguredEngine.codec("child", e -> e.child)
 	).apply(i, MoveEngine::new));
 
+	@Deprecated
+	public MoveEngine {}
+
 	@Override
 	public EngineType<MoveEngine> type() {
 		return EngineRegistry.MOVE_ENGINE.get();

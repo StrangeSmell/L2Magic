@@ -5,7 +5,6 @@ import dev.xkmc.l2magic.content.engine.context.DataGenContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
 import dev.xkmc.l2magic.content.engine.iterator.LoopIterator;
 import dev.xkmc.l2magic.content.engine.logic.ListLogic;
-import dev.xkmc.l2magic.content.engine.logic.MoveEngine;
 import dev.xkmc.l2magic.content.engine.logic.ProcessorEngine;
 import dev.xkmc.l2magic.content.engine.modifier.RandomOffsetModifier;
 import dev.xkmc.l2magic.content.engine.modifier.SetDirectionModifier;
@@ -95,23 +94,19 @@ public class IcyFlash extends SpellDataGenEntry {
 				),
 				new LoopIterator(  // Render
 						IntVariable.of("100"),
-						new MoveEngine(
-								List.of(
-										new RandomOffsetModifier(
-												RandomOffsetModifier.Type.RECT,
-												DoubleVariable.of("2"),
-												DoubleVariable.of("2"),
-												DoubleVariable.of("2")
-										),
-										new SetDirectionModifier(
-												DoubleVariable.ZERO,
-												DoubleVariable.of("-1"),
-												DoubleVariable.ZERO
-										)
+						new SimpleParticleInstance(
+								ParticleTypes.SNOWFLAKE,
+								DoubleVariable.of("0.1")
+						).move(new RandomOffsetModifier(
+										RandomOffsetModifier.Type.RECT,
+										DoubleVariable.of("2"),
+										DoubleVariable.of("2"),
+										DoubleVariable.of("2")
 								),
-								new SimpleParticleInstance(
-										ParticleTypes.SNOWFLAKE,
-										DoubleVariable.of("0.1")
+								new SetDirectionModifier(
+										DoubleVariable.ZERO,
+										DoubleVariable.of("-1"),
+										DoubleVariable.ZERO
 								)
 						),
 						null

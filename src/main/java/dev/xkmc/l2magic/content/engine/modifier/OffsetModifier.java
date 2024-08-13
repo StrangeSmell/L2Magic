@@ -13,6 +13,9 @@ import net.minecraft.world.phys.Vec3;
 public record OffsetModifier(DoubleVariable x, DoubleVariable y, DoubleVariable z)
 		implements Modifier<OffsetModifier> {
 
+	public static final OffsetModifier ABOVE = of("0", "1", "0");
+	public static final OffsetModifier BELOW = of("0", "-1", "0");
+
 	public static MapCodec<OffsetModifier> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
 			DoubleVariable.optionalCodec("x", OffsetModifier::x),
 			DoubleVariable.optionalCodec("y", OffsetModifier::y),

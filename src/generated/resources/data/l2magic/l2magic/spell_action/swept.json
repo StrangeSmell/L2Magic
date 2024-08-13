@@ -1,0 +1,31 @@
+{
+  "action": {
+    "type": "l2magic:block_in_range",
+    "child": {
+      "type": "l2magic:if",
+      "action": {
+        "type": "l2magic:remove_block",
+        "method": "DROP"
+      },
+      "predicate": {
+        "type": "l2magic:and",
+        "list": [
+          {
+            "type": "l2magic:not",
+            "child": {
+              "type": "l2magic:block_test",
+              "test": "BLOCKS_MOTION"
+            }
+          }
+        ]
+      }
+    },
+    "delayPerBlock": "2",
+    "plane": false,
+    "range": "6"
+  },
+  "cast_type": "INSTANT",
+  "icon": "minecraft:brush",
+  "order": 642,
+  "trigger_type": "TARGET_POS"
+}

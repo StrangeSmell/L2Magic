@@ -5,6 +5,7 @@
   "l2magic.title": "ɔıbɐWᄅꞀ",
   "spell_action.l2magic.circular": "sǝıpoᗺ ǝǝɹɥ⟘",
   "spell_action.l2magic.circular_entity": "suooW ǝǝɹɥ⟘",
+  "spell_action.l2magic.cobwebs": "ʇsǝN ɹǝpıdS",
   "spell_action.l2magic.earth_spike": "ǝʞıdS ɥʇɹɐƎ",
   "spell_action.l2magic.earth_spike_field": "pןǝıℲ ǝʞıdS ɥʇɹɐƎ",
   "spell_action.l2magic.earthquake": "ʇsɹnᗺ ɐʌɐꞀ",
@@ -12,11 +13,14 @@
   "spell_action.l2magic.echo_rings": "sbuıᴚ oɥɔƎ",
   "spell_action.l2magic.flame_burst": "ʞɹɐW ןןǝH",
   "spell_action.l2magic.flame_charge": "ǝbɹɐɥƆ ǝɯɐןℲ",
+  "spell_action.l2magic.floor": "ɹooןℲ",
   "spell_action.l2magic.icy_flash": "ɥsɐןℲ ʎɔI",
   "spell_action.l2magic.magic_arrow_ring": "uǝʌǝS ɟo pɹoʍS",
   "spell_action.l2magic.magic_arrows": "ʇuǝɯǝbpnſ ɔıןǝbuⱯ",
   "spell_action.l2magic.magnet_core": "ǝɹoƆ ʇǝubɐW",
   "spell_action.l2magic.master_spark": "ʞɹɐdS ɹǝʇsɐW",
+  "spell_action.l2magic.melt": "ʇןǝW",
+  "spell_action.l2magic.swept": "ʇǝdʍS",
   "spell_action.l2magic.tornado": "opɐuɹo⟘",
   "spell_action.l2magic.winter_storm": "ɯɹoʇS ɹǝʇuıM"
 }

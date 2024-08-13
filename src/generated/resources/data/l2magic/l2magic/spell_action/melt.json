@@ -1,0 +1,43 @@
+{
+  "action": {
+    "type": "l2magic:block_in_range",
+    "child": {
+      "type": "l2magic:if",
+      "action": {
+        "type": "l2magic:set_block",
+        "state": "minecraft:magma_block"
+      },
+      "predicate": {
+        "type": "l2magic:and",
+        "list": [
+          {
+            "type": "l2magic:move",
+            "child": {
+              "type": "l2magic:block_test",
+              "test": "BLOCKS_MOTION"
+            },
+            "modifiers": [
+              {
+                "type": "l2magic:offset",
+                "x": "0",
+                "y": "1",
+                "z": "0"
+              }
+            ]
+          },
+          {
+            "type": "l2magic:block",
+            "block": "#minecraft:sculk_replaceable"
+          }
+        ]
+      }
+    },
+    "delayPerBlock": "2",
+    "plane": false,
+    "range": "6"
+  },
+  "cast_type": "INSTANT",
+  "icon": "minecraft:magma_block",
+  "order": 632,
+  "trigger_type": "TARGET_POS"
+}

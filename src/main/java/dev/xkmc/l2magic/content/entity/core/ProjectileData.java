@@ -4,7 +4,6 @@ import dev.xkmc.fastprojectileapi.entity.ProjectileMovement;
 import dev.xkmc.l2magic.content.engine.context.EngineContext;
 import dev.xkmc.l2magic.content.engine.context.UserContext;
 import dev.xkmc.l2magic.content.engine.core.ConfiguredEngine;
-import dev.xkmc.l2magic.content.engine.core.EntityProcessor;
 import dev.xkmc.l2magic.content.engine.helper.Scheduler;
 import dev.xkmc.l2magic.content.entity.renderer.ProjectileRenderer;
 import dev.xkmc.l2magic.init.registrate.EngineRegistry;
@@ -30,7 +29,7 @@ import java.util.Set;
 public class ProjectileData {
 
 	private static final int SALT_TICK = 0x342ab3c1, SALT_MOVE = 0xa6258bd1,
-			SALT_HIT = 0xb286c235, SALT_RENDER = 0x1134ba51;
+			SALT_HIT = 0xb286c235, SALT_RENDER = 0x1134ba51, SALT_SIZE = 0x82f34eab;
 
 	public static final Set<String> DEFAULT_PARAMS = Set.of("TickCount",
 			"ProjectileX", "ProjectileY", "ProjectileZ");
@@ -97,12 +96,14 @@ public class ProjectileData {
 
 	public void hurtTarget(LMProjectile self, EntityHitResult result) {
 		if (getConfig(self.level()) == null) return;
-		EntityProcessor<?> hit = config.hit();
-		if (hit == null) return;
+		var hit = config.hit();
+		if (hit.isEmpty()) return;
 		if (!(result.getEntity() instanceof LivingEntity le)) return;
 		EngineContext ctx = getContext(self, SALT_HIT, false);
 		if (ctx == null) return;
-		hit.process(List.of(le), ctx);
+		for (var e : hit) {
+			e.process(List.of(le), ctx);
+		}
 	}
 
 	public void tick(LMProjectile self) {
@@ -134,6 +135,15 @@ public class ProjectileData {
 		EngineContext ctx = getContext(self, SALT_RENDER, false);
 		if (ctx == null) return null;
 		return renderer.resolve(ctx);
+	}
+
+	public double size(LMProjectile e) {
+		if (getConfig(e.level()) == null) return 0;
+		var size = config.size();
+		if (size == null) return 0;
+		EngineContext ctx = getContext(e, SALT_SIZE, false);
+		if (ctx == null) return 0;
+		return size.eval(ctx);
 	}
 
 }

@@ -1,5 +1,6 @@
 {
   "filter": "ENEMY_NO_FAMILY",
+  "hit": [],
   "motion": {
     "type": "l2magic:control_position",
     "modifiers": [
