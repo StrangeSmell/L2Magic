@@ -100,7 +100,7 @@ public class MagmaShield extends SpellDataGenEntry {
                                                                         DoubleVariable.ZERO
                                                                 ),
                                                                 new IgniteProcessor(
-                                                                        IntVariable.of("20")
+                                                                        IntVariable.of("40")
                                                                 )
                                                         )
                                                 ),

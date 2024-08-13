@@ -5,6 +5,7 @@ import dev.xkmc.l2magic.init.data.spell.BlockSpells;
 import dev.xkmc.l2magic.init.data.spell.EchoSpells;
 import dev.xkmc.l2magic.init.data.spell.MasterSpark;
 import dev.xkmc.l2magic.init.data.spell.fire.FlameCharge;
+import dev.xkmc.l2magic.init.data.spell.fire.FlamePillar;
 import dev.xkmc.l2magic.init.data.spell.fire.FlameSpells;
 import dev.xkmc.l2magic.init.data.spell.fire.MagmaShield;
 import dev.xkmc.l2magic.init.data.spell.ground.EarthSpike;
@@ -27,7 +28,8 @@ public class SpellDataGenRegistry {
 			new EarthSpike(),  // id:3200
 			new EchoSpells(),
 			new FlameCharge(),  // id:3300
-			new MagmaShield()  // id:3400
+			new MagmaShield(),  // id:3400
+			new FlamePillar()	// id:3500
 	);
 
 }
